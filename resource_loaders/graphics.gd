@@ -1,7 +1,6 @@
 extends Node
 
-static func load_texture_file(filename):
-	var palette0 = System.cur_data["palettes"]["main"][0]
+static func load_texture_file(filename, palette0):
 	var textures = []
 	var tfile = FileAccess.open(filename, FileAccess.READ)
 	if(tfile == null):

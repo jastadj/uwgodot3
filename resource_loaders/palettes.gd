@@ -24,14 +24,7 @@ static func load_palette_file(filename):
 	return palettes
 
 static func load_aux_palette_file(filename):
-	
-	var palette0 = System.cur_data["palettes"]["main"][0]
-	
-	# Check to ensure that the System Palettes have loaded first.
-	if(palette0.size() != 256):
-		print("Error loading aux palettes.  Palette 0 has unexpected size.")
-		return false
-	
+		
 	var aux_palettes = []
 	var pfile = FileAccess.open(filename, FileAccess.READ)
 	if(pfile == null):
