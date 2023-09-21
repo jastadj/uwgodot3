@@ -23,6 +23,7 @@ text = "index"
 
 [node name="slider" type="HSlider" parent="VBoxContainer"]
 layout_mode = 2
+focus_mode = 1
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
 layout_mode = 2
