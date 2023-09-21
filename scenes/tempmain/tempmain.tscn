@@ -1,3 +1,33 @@
-[gd_scene format=3 uid="uid://ltn2afwhbxe"]
+[gd_scene load_steps=4 format=3 uid="uid://ltn2afwhbxe"]
+
+[ext_resource type="Script" path="res://scenes/tempmain/tempmain.gd" id="1_qfhff"]
+[ext_resource type="PackedScene" uid="uid://bculmf7nfx6oe" path="res://scenes/debug/palette_viewer.tscn" id="2_0e0cl"]
+[ext_resource type="PackedScene" uid="uid://blwxwx8etdu7b" path="res://scenes/debug/image_viewer.tscn" id="3_7cs6i"]
 
 [node name="tempmain" type="Node2D"]
+script = ExtResource("1_qfhff")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ui" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="palette_viewer" parent="CanvasLayer/ui" instance=ExtResource("2_0e0cl")]
+layout_mode = 0
+offset_left = 156.0
+offset_top = 185.0
+offset_right = 256.0
+offset_bottom = 285.0
+focus_mode = 1
+
+[node name="image_viewer" parent="CanvasLayer/ui" instance=ExtResource("3_7cs6i")]
+layout_mode = 0
+offset_left = 778.0
+offset_top = 202.0
+offset_right = 878.0
+offset_bottom = 302.0
