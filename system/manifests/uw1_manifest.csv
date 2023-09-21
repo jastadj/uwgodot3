@@ -1,0 +1,5 @@
+Filename,Type,Key
+PALS.DAT,palette,
+ALLPALS.DAT,aux_palette,
+W16.TR,texture,walls_16
+W64.TR,texture,walls_64
