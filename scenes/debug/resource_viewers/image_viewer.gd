@@ -40,4 +40,5 @@ func _on_slider_value_changed(value):
 func _on_option_button_item_selected(index):
 	images = System.cur_data["images"][button_images.get_item_text(button_images.selected)]
 	if (image_index >= images.size()): image_index = images.size()-1
+	slider.max_value = images.size()-1
 	draw_image()

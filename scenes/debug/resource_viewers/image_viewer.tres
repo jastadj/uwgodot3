@@ -1,0 +1,32 @@
+[gd_resource type="VisualShader" load_steps=3 format=3 uid="uid://budqgpibwaaqs"]
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_xugrh"]
+input_name = "color"
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_1oovk"]
+input_name = "uv"
+
+[resource]
+code = "shader_type canvas_item;
+
+
+
+void fragment() {
+// Input:2
+	vec4 n_out2p0 = COLOR;
+
+
+// Output:0
+	COLOR.rgb = vec3(n_out2p0.xyz);
+
+
+}
+"
+graph_offset = Vector2(-345, 90)
+mode = 1
+flags/light_only = false
+nodes/fragment/2/node = SubResource("VisualShaderNodeInput_xugrh")
+nodes/fragment/2/position = Vector2(-260, 120)
+nodes/fragment/3/node = SubResource("VisualShaderNodeInput_1oovk")
+nodes/fragment/3/position = Vector2(-340, 240)
+nodes/fragment/connections = PackedInt32Array(2, 0, 0, 0)

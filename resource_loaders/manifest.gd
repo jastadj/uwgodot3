@@ -1,14 +1,14 @@
 extends Node
 
-enum RESOURCE_TYPES{PALETTE, AUX_PALETTE, TEXTURE}
+enum RESOURCE_TYPES{PALETTE, AUX_PALETTE, TEXTURE, GRAPHIC}
 
 static func load_manifest_file(uw_data:Dictionary, manifest_filename:String, data_path_str:String):
 		
-	var MANIFEST_HEADER = PackedStringArray(["Filename","Type","Base","Name"])
+	var MANIFEST_HEADER = PackedStringArray(["Filename","Type","Base","Name", "Palette"])
 	var line_counter = 0
 	var data_path = DirAccess.open(data_path_str)
 	var data_path_files = null
-	var palette0 = null
+	var palettes = null
 	
 	print(uw_data)
 	
@@ -63,11 +63,16 @@ static func load_manifest_file(uw_data:Dictionary, manifest_filename:String, dat
 		var type = manifest_entry[1].to_upper()
 		var base = manifest_entry[2]
 		var keyname = manifest_entry[3]
+		var palette = manifest_entry[4]
 		var _keydata
+		
+		if (palettes != null):
+			if (palette == ""): palette = 0
 		
 		# Does file exist?
 		if(!data_path_files.has(filename)):
 			printerr("Error loading manifest, unable to find file on line ",line_counter,":", filename)
+			tfile.close()
 			return false
 			
 		filepath = data_path_str + "/" + filename
@@ -75,6 +80,7 @@ static func load_manifest_file(uw_data:Dictionary, manifest_filename:String, dat
 		# Does type exists?
 		if(!RESOURCE_TYPES.has(type)):
 			printerr("Error loading manifest, resource type ",type," unknown.")
+			tfile.close()
 			return false
 		
 		# If Base Key does not exist, create it.
@@ -90,20 +96,26 @@ static func load_manifest_file(uw_data:Dictionary, manifest_filename:String, dat
 		match(RESOURCE_TYPES.get(type)):
 			RESOURCE_TYPES.PALETTE:
 				result = palette_loader.load_palette_file(filepath)
-				if(!palette0): palette0 = result[0]
 			RESOURCE_TYPES.AUX_PALETTE:
 				result = palette_loader.load_aux_palette_file(filepath)
 			RESOURCE_TYPES.TEXTURE:
-				if(palette0 == null):
-					printerr("Error loading manifest texture file, palette0 undefined.")
+				if(palettes == null):
+					printerr("Error loading manifest texture file, no available palettes.")
 					return false
 				result = graphics_loader.load_texture_file(filepath)
+			RESOURCE_TYPES.GRAPHIC:
+				if(palettes == null):
+					printerr("Error loading manifest texture file, no available palettes.")
+					return false
+				result = graphics_loader.load_graphics_file(filepath, palettes["main"][palette])
 			_:
 				printerr("Error loading manifest, unhandled resource type ", type)
+				tfile.close()
 				return false
 		
 		if (result is bool):
 			printerr("Error loading resource type ", type, " from file ", filepath)
+			tfile.close()
 			return false
 		
 		print("Loaded ", result.size(), " entries of ", type," to [",base,"][", keyname,"]")
@@ -111,6 +123,9 @@ static func load_manifest_file(uw_data:Dictionary, manifest_filename:String, dat
 		# Add resource to data.
 		for element in result:
 			uw_data[base][keyname].append(element)
+		
+		if(palettes == null):
+			if(uw_data.has("palettes")): palettes = uw_data["palettes"]
 		
 		line_counter += 1
 	

@@ -1,5 +1,7 @@
-Filename,Type,Base,Name
-PALS.DAT,palette,palettes,main
-ALLPALS.DAT,aux_palette,palettes,aux
-W16.TR,texture,images,walls_16
-W64.TR,texture,images,walls_64
+Filename,Type,Base,Name,Palette
+PALS.DAT,palette,palettes,main,
+ALLPALS.DAT,aux_palette,palettes,aux,
+W16.TR,texture,images,walls_16,
+W64.TR,texture,images,walls_64,
+CHARHEAD.GR,graphic,images,charhead,
+OBJECTS.GR,graphic,images,objects,
