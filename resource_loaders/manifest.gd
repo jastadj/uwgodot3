@@ -63,7 +63,7 @@ static func load_manifest_file(uw_data:Dictionary, manifest_filename:String, dat
 		var type = manifest_entry[1].to_upper()
 		var base = manifest_entry[2]
 		var keyname = manifest_entry[3]
-		var keydata
+		var _keydata
 		
 		# Does file exist?
 		if(!data_path_files.has(filename)):
@@ -83,10 +83,10 @@ static func load_manifest_file(uw_data:Dictionary, manifest_filename:String, dat
 		# If Name Key does not exist, create it.
 		if(!uw_data[base].has(keyname)): uw_data[base][keyname] = []
 		
-		# Load the resource type.
-		keydata = uw_data[base][keyname]
-		var result
 		
+		
+		# Load the resource type.
+		var result
 		match(RESOURCE_TYPES.get(type)):
 			RESOURCE_TYPES.PALETTE:
 				result = palette_loader.load_palette_file(filepath)
@@ -97,7 +97,7 @@ static func load_manifest_file(uw_data:Dictionary, manifest_filename:String, dat
 				if(palette0 == null):
 					printerr("Error loading manifest texture file, palette0 undefined.")
 					return false
-				result = graphics_loader.load_texture_file(filepath, palette0)
+				result = graphics_loader.load_texture_file(filepath)
 			_:
 				printerr("Error loading manifest, unhandled resource type ", type)
 				return false
@@ -109,7 +109,8 @@ static func load_manifest_file(uw_data:Dictionary, manifest_filename:String, dat
 		print("Loaded ", result.size(), " entries of ", type," to [",base,"][", keyname,"]")
 		
 		# Add resource to data.
-		uw_data[base][keyname].append(result)
+		for element in result:
+			uw_data[base][keyname].append(element)
 		
 		line_counter += 1
 	

@@ -1,15 +1,16 @@
 extends Node
 
-static func load_texture_file(filename, palette0):
+static func load_texture_file(filename):
 	var textures = []
 	var tfile = FileAccess.open(filename, FileAccess.READ)
+	var palette0 = System.cur_data["palettes"]["main"][0]
 	if(tfile == null):
 		print("Error opening texture file:" + filename)
 		return false
 	
 	while !tfile.eof_reached():
 		# Read Header
-		var format = tfile.get_8()
+		var _format = tfile.get_8()
 		var size = tfile.get_8()
 		var count = tfile.get_16()
 		var offsets = []
@@ -30,3 +31,6 @@ static func load_texture_file(filename, palette0):
 			textures.append(image)
 	
 	return textures
+
+static func load_graphics_file(filename):
+	pass

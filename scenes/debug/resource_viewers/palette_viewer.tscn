@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=3 uid="uid://cmrc48kg5yucp"]
+
+[ext_resource type="Script" path="res://scenes/debug/resource_viewers/palette_viewer.gd" id="1_g735x"]
+[ext_resource type="Texture2D" uid="uid://cseyojwy6622n" path="res://art/square_16_16.png" id="1_ksr6y"]
+
+[node name="palette_viewer" type="Node2D"]
+script = ExtResource("1_g735x")
+
+[node name="pal_0" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("1_ksr6y")
+centered = false
+
+[node name="palette_grid" type="Node2D" parent="."]
+position = Vector2(0, 84)
+
+[node name="ui" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HSlider" type="HSlider" parent="ui/VBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+focus_mode = 1
+value = 100.0
+
+[node name="current_palette" type="Label" parent="ui/VBoxContainer"]
+layout_mode = 2
+text = "current_palette"
+
+[node name="palette_cursor" type="Label" parent="ui"]
+layout_mode = 2
+offset_top = 50.0
+offset_right = 150.0
+offset_bottom = 76.0
+text = "palette_cursor"
+
+[connection signal="value_changed" from="ui/VBoxContainer/HSlider" to="." method="_on_h_slider_value_changed"]

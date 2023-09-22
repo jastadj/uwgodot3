@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=3 uid="uid://11lhaska2pjv"]
+
+[ext_resource type="Script" path="res://scenes/debug/resource_viewers/image_viewer.gd" id="1_33yab"]
+
+[node name="image_viewer" type="Node2D"]
+script = ExtResource("1_33yab")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 85)
+centered = false
+
+[node name="ui" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="OptionButton" type="OptionButton" parent="ui/VBoxContainer"]
+layout_mode = 2
+
+[node name="slider" type="HSlider" parent="ui/VBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+focus_mode = 1
+
+[node name="label_index" type="Label" parent="ui/VBoxContainer"]
+layout_mode = 2
+
+[connection signal="item_selected" from="ui/VBoxContainer/OptionButton" to="." method="_on_option_button_item_selected"]
+[connection signal="value_changed" from="ui/VBoxContainer/slider" to="." method="_on_slider_value_changed"]
