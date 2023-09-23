@@ -585,7 +585,10 @@ Table of Contents
 		my notes : type 8 still has auxpal byte and 16-bit size in header
 		           the count 1 or count 2 only affects the repeat record
 				   if option 2 for repeat record, get another count, then do
-				   multiple repeat records by that other count
+				   multiple repeat records by that other count.  also, as
+				   mentioned, sometimes the decompression engine will generate
+				   more pixels than the image size, the array should be resized
+				   after decompression if > width*height
 
    All pixels are run-length encoded. when a new byte has to be retrieved,
    first take the high nibble, then the low nibble of that byte.

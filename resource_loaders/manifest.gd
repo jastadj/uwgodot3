@@ -100,14 +100,14 @@ static func load_manifest_file(uw_data:Dictionary, manifest_filename:String, dat
 				result = palette_loader.load_aux_palette_file(filepath)
 			RESOURCE_TYPES.TEXTURE:
 				if(palettes == null):
-					printerr("Error loading manifest texture file, no available palettes.")
+					printerr("Error loading texture file, no available palettes.")
 					return false
-				result = graphics_loader.load_texture_file(filepath)
+				result = graphics_loader.load_image_file(filepath, palettes["main"][palette])
 			RESOURCE_TYPES.GRAPHIC:
 				if(palettes == null):
-					printerr("Error loading manifest texture file, no available palettes.")
+					printerr("Error loading graphics file, no available palettes.")
 					return false
-				result = graphics_loader.load_graphics_file(filepath, palettes["main"][palette])
+				result = graphics_loader.load_image_file(filepath, palettes["main"][palette])
 			_:
 				printerr("Error loading manifest, unhandled resource type ", type)
 				tfile.close()
