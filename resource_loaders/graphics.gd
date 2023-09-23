@@ -2,6 +2,28 @@ extends Node
 
 enum IMAGE_FORMAT{FMT_8BIT = 0x04, FMT_4BIT = 0x0a, FMT_4BIT_RLE = 0x08, FMT_5BIT_RLE}
 
+static func load_bitmap_file(filename, palette):
+	var tfile = FileAccess.open(filename, FileAccess.READ)
+	var pixel_data = []
+	var byte_counter = 0
+	
+	if(tfile == null):
+		print("Error opening image file:" + filename)
+		return false
+	
+	pixel_data.resize(320*200*4)
+	while(!tfile.eof_reached() and byte_counter < (320*200)):
+		var byte = tfile.get_8()
+		var color = palette[byte].to_abgr32()
+		pixel_data[byte_counter*4] = color & 0xff
+		pixel_data[(byte_counter*4)+1] = (color & 0xff00) >> 8
+		pixel_data[(byte_counter*4)+2] = (color & 0xff0000) >> 16
+		pixel_data[(byte_counter*4)+3] = 0xff
+		byte_counter += 1
+	
+	return [Image.create_from_data(320, 200, false, Image.FORMAT_RGBA8, pixel_data)]
+	
+
 static func load_image_file(filename, palette):
 	var images = []
 	var tfile = FileAccess.open(filename, FileAccess.READ)

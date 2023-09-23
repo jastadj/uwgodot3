@@ -1,0 +1,41 @@
+[gd_scene load_steps=2 format=3 uid="uid://tiodll7na413"]
+
+[ext_resource type="Script" path="res://scenes/startup/startup.gd" id="1_snjj3"]
+
+[node name="startup" type="Node2D"]
+script = ExtResource("1_snjj3")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ui" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="loadcontainer" type="VBoxContainer" parent="CanvasLayer/ui"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -71.0
+offset_right = 20.0
+offset_bottom = -31.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="loadstring" type="Label" parent="CanvasLayer/ui/loadcontainer"]
+layout_mode = 2
+text = "load string"
+horizontal_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/ui/loadcontainer"]
+custom_minimum_size = Vector2(300, 32)
+layout_mode = 2
+show_percentage = false

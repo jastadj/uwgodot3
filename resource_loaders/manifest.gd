@@ -1,10 +1,13 @@
 extends Node
 
-enum RESOURCE_TYPES{PALETTE, AUX_PALETTE, TEXTURE, GRAPHIC}
+enum RESOURCE_TYPES{PALETTE, AUX_PALETTE, TEXTURE, GRAPHIC, BITMAP}
 
-static func load_manifest_file(uw_data:Dictionary, manifest_filename:String, data_path_str:String):
+signal loading(loadstring, cur, total)
+
+func load_manifest_file(uw_data:Dictionary, manifest_filename:String, data_path_str:String):
 		
 	var MANIFEST_HEADER = PackedStringArray(["Filename","Type","Base","Name", "Palette"])
+	var manifest_entries = []
 	var line_counter = 0
 	var data_path = DirAccess.open(data_path_str)
 	var data_path_files = null
@@ -58,15 +61,22 @@ static func load_manifest_file(uw_data:Dictionary, manifest_filename:String, dat
 			tfile.close()
 			return false
 		
-		var filename = manifest_entry[0]
+		manifest_entries.append(manifest_entry)
+	
+	for entryi in range(0,manifest_entries.size()):
+		var entry = manifest_entries[entryi]
+		var filename = entry[0]
 		var filepath
-		var type = manifest_entry[1].to_upper()
-		var base = manifest_entry[2]
-		var keyname = manifest_entry[3]
-		var palette = manifest_entry[4]
+		var type = entry[1].to_upper()
+		var base = entry[2]
+		var keyname = entry[3]
+		var palette = entry[4]
+		
+		emit_signal("loading", [filename,entryi, manifest_entries.size()])
 		
 		if (palettes != null):
 			if (palette == ""): palette = 0
+			else: palette = palette.to_int()
 		
 		# Does file exist?
 		if(!data_path_files.has(filename)):
@@ -107,6 +117,11 @@ static func load_manifest_file(uw_data:Dictionary, manifest_filename:String, dat
 					printerr("Error loading graphics file, no available palettes.")
 					return false
 				result = graphics_loader.load_image_file(filepath, palettes["main"][palette])
+			RESOURCE_TYPES.BITMAP:
+				if(palettes == null):
+					printerr("Error loading bitmap file, no available palettes.")
+					return false
+				result = graphics_loader.load_bitmap_file(filepath, palettes["main"][palette])
 			_:
 				printerr("Error loading manifest, unhandled resource type ", type)
 				tfile.close()

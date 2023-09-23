@@ -9,18 +9,13 @@
 script = ExtResource("1_rsrhr")
 
 [node name="resource_viewers" type="Node2D" parent="."]
+position = Vector2(254, 8)
 
 [node name="palette_viewer" parent="resource_viewers" instance=ExtResource("2_wpros")]
-visible = false
-position = Vector2(297, 79)
 
 [node name="aux_palette_viewer" parent="resource_viewers" instance=ExtResource("3_cksn5")]
-visible = false
-position = Vector2(297, 79)
 
 [node name="image_viewer" parent="resource_viewers" instance=ExtResource("3_qsha3")]
-visible = false
-position = Vector2(298, 80)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -35,14 +30,10 @@ mouse_filter = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ui"]
 layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 75.0
-offset_top = -23.0
-offset_right = 115.0
-offset_bottom = 17.0
-grow_vertical = 2
+offset_left = 25.0
+offset_top = 17.0
+offset_right = 130.0
+offset_bottom = 118.0
 
 [node name="button_palettes" type="Button" parent="CanvasLayer/ui/VBoxContainer"]
 layout_mode = 2

@@ -12,8 +12,12 @@ var sprite_scaler_multiplier = 2
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	visible = false
+	var image_list = []
 	for key in System.cur_data["images"].keys():
-		button_images.add_item(key)
+		image_list.append(key)
+	image_list.sort()
+	for istr in image_list:
+		button_images.add_item(istr)
 	images = System.cur_data["images"][button_images.get_item_text(button_images.selected)]
 	slider.max_value = images.size()-1
 	
