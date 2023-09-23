@@ -64,7 +64,6 @@ static func load_manifest_file(uw_data:Dictionary, manifest_filename:String, dat
 		var base = manifest_entry[2]
 		var keyname = manifest_entry[3]
 		var palette = manifest_entry[4]
-		var _keydata
 		
 		if (palettes != null):
 			if (palette == ""): palette = 0

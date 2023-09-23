@@ -90,7 +90,6 @@ static func load_image_file(filename, palette):
 					bit_stream.append( (byte & (0x1 << 7-n)) >> (7-n) )
 			var atom_map = decode_rle_bitstream(word_size, bit_stream)
 			if(atom_map.size() > width*height): atom_map.resize(width*height)
-			if(i == 280): print("Offset:", offsets[i], "\n", atom_map)
 			# use the atom map to map the aux palette indices to colors into the pixel data array
 			for n in range(0, atom_map.size()):
 				var color = palette[System.cur_data["palettes"]["aux"][aux_pal][atom_map[n]]].to_abgr32()
@@ -125,8 +124,12 @@ static func decode_rle_bitstream(word_size:int, bits:Array):
 		
 		# repeat mode
 		if (repeat_mode):
-			# else if count == 2, perform multiple repeats
-			if (count == 2):
+			# if count == 1, skip this record and do a run
+			if (count == 1):
+				repeat_mode = false
+				continue
+			# if count == 2, perform multiple repeats
+			elif (count == 2):
 				var repeats = rle_get_count(bits)
 				while repeats > 0:
 					count = rle_get_count(bits)
