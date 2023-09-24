@@ -70,28 +70,13 @@ func set_palettes(tpalettes, taux_palettes):
 func draw_image():
 	index_label.text = str("Index ", image_slider.value, " / ", image_slider.max_value)
 	if(palettes == null or aux_palettes == null): return
-	pal_label.text = str("Palette[", pal_slider.value, "]:")
-	aux_label.text = str("Aux Palette[", aux_pal_slider.value, "]:")
+	var pal_val = pal_slider.value
+	var aux_pal_val = aux_pal_slider.value
+	pal_label.text = str("Palette[", pal_val, "]:")
+	aux_label.text = str("Aux Palette[", aux_pal_val, "]:")
 	var cur_image = System.cur_data["raws"]["images"][image_set][image_slider.value]
-	var pixel_data = []
-	pixel_data.resize(cur_image["width"]*cur_image["height"]*4)
-	if(cur_image["type"] == int(System.IMAGE_FORMAT.FMT_8BIT)):
-		for pixeli in range(0, cur_image["data"].size()):
-			var color = palettes[pal_slider.value][cur_image["data"][pixeli]].to_abgr32()
-			pixel_data[(pixeli*4)] = color & 0xff
-			pixel_data[(pixeli*4)+1] = (color & 0xff00) >> 8
-			pixel_data[(pixeli*4)+2] = (color & 0xff0000) >> 16
-			pixel_data[(pixeli*4)+3] = 0xff
-	else:
-		var pal = pal_slider.value
-		var aux_pal = aux_pal_slider.value
-		for pixeli in range(0, cur_image["data"].size()):
-			var color = aux_palettes[aux_pal][cur_image["data"][pixeli]].to_abgr32()
-			pixel_data[(pixeli*4)] = color & 0xff
-			pixel_data[(pixeli*4)+1] = (color & 0xff00) >> 8
-			pixel_data[(pixeli*4)+2] = (color & 0xff0000) >> 16
-			pixel_data[(pixeli*4)+3] = 0xff
-	var newimage = Image.create_from_data(cur_image["width"], cur_image["height"],false, Image.FORMAT_RGBA8, pixel_data)
+	
+	var newimage = System.generate_image_from_image_entry(cur_image, palettes[pal_val], aux_palettes[aux_pal_val])
 	image.texture = ImageTexture.create_from_image(newimage)
 	image.scale = Vector2(image_scale,image_scale)
 			

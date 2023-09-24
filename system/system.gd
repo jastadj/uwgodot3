@@ -25,7 +25,26 @@ func load_uw1_resources(callable:Callable):
 	
 	# Load files from manifest
 	return manifest_loader.load_manifest_file(cur_data["raws"], manifest_file, data_path)
-	
+
+func generate_image_from_image_entry(image_entry, palette, aux_palette):
+	var pixel_data = []
+	pixel_data.resize(image_entry["width"]*image_entry["height"]*4)
+	if(int(image_entry["type"]) == int(System.IMAGE_FORMAT.FMT_8BIT)):
+		for pixeli in range(0, image_entry["data"].size()):
+			var color = palette[image_entry["data"][pixeli]].to_abgr32()
+			pixel_data[(pixeli*4)] = color & 0xff
+			pixel_data[(pixeli*4)+1] = (color & 0xff00) >> 8
+			pixel_data[(pixeli*4)+2] = (color & 0xff0000) >> 16
+			pixel_data[(pixeli*4)+3] = 0xff
+	else:
+		for pixeli in range(0, image_entry["data"].size()):
+			var color = palette[aux_palette[image_entry["data"][pixeli]]].to_abgr32()
+			pixel_data[(pixeli*4)] = color & 0xff
+			pixel_data[(pixeli*4)+1] = (color & 0xff00) >> 8
+			pixel_data[(pixeli*4)+2] = (color & 0xff0000) >> 16
+			pixel_data[(pixeli*4)+3] = 0xff
+	return Image.create_from_data(image_entry["width"], image_entry["height"],false, Image.FORMAT_RGBA8, pixel_data)
+
 func print_data_keys(data:Dictionary, indent:int = 0):
 	var indent_str = String()
 	for i in range(0, indent): indent_str += " "
