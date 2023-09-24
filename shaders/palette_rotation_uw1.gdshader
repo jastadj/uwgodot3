@@ -30,136 +30,130 @@ uniform vec4 color21;
 uniform vec4 color22;
 uniform vec4 color23;
 
-bool colors_match(vec4 c1, vec4 c2)
-{
-	if( int(c1.x*256.0) != int(c2.x*256.0)) return false;
-	if( int(c1.y*256.0) != int(c2.y*256.0)) return false;
-	if( int(c1.z*256.0) != int(c2.z*256.0)) return false;
-	return true;
-}
-
 void fragment() {
 	vec4 current_color = texture(TEXTURE, UV); // get pixel color
 	int cycle1 = int(TIME/(speed_ms*0.001))%4;
 	int cycle2 = int(TIME/(speed_ms*0.001))%5;
 	int cycle3 = int(TIME/(speed_ms*0.001))%3;
 	
+	const float precision = 0.01;
+	
 	// water effect
 	if (cycle1 == 0)
 	{
 		// colors 0-3
-		if (colors_match(current_color, color0)) current_color = color1;
-		else if (colors_match(current_color, color1)) current_color = color2;
-		else if (colors_match(current_color, color2)) current_color = color3;
-		else if (colors_match(current_color, color3)) current_color = color4;
+		if (distance(current_color, color0) <= precision) current_color = color1;
+		else if (distance(current_color, color1) <= precision) current_color = color2;
+		else if (distance(current_color, color2) <= precision) current_color = color3;
+		else if (distance(current_color, color3) <= precision) current_color = color4;
 		
 		// color 4-7
-		else if (colors_match(current_color, color4)) current_color = color5;
-		else if (colors_match(current_color, color5)) current_color = color6;
-		else if (colors_match(current_color, color6)) current_color = color7;
-		else if (colors_match(current_color, color7)) current_color = color4;
+		else if (distance(current_color, color4) <= precision) current_color = color5;
+		else if (distance(current_color, color5) <= precision) current_color = color6;
+		else if (distance(current_color, color6) <= precision) current_color = color7;
+		else if (distance(current_color, color7) <= precision) current_color = color4;
 		
 		// color 8-11
-		else if (colors_match(current_color, color8)) current_color = color9;
-		else if (colors_match(current_color, color9)) current_color = color10;
-		else if (colors_match(current_color, color10)) current_color = color11;
-		else if (colors_match(current_color, color11)) current_color = color8;
+		else if (distance(current_color, color8) <= precision) current_color = color9;
+		else if (distance(current_color, color9) <= precision) current_color = color10;
+		else if (distance(current_color, color10) <= precision) current_color = color11;
+		else if (distance(current_color, color11) <= precision) current_color = color8;
 		
 		// color 12-15
-		else if (colors_match(current_color, color12)) current_color = color13;
-		else if (colors_match(current_color, color13)) current_color = color14;
-		else if (colors_match(current_color, color14)) current_color = color15;
-		else if (colors_match(current_color, color15)) current_color = color12;
+		else if (distance(current_color, color12) <= precision) current_color = color13;
+		else if (distance(current_color, color13) <= precision) current_color = color14;
+		else if (distance(current_color, color14) <= precision) current_color = color15;
+		else if (distance(current_color, color15) <= precision) current_color = color12;
 	}
 	else if (cycle1 == 1)
 	{
 		// colors 0-3
-		if (colors_match(current_color, color0)) current_color = color2;
-		else if (colors_match(current_color, color1)) current_color = color3;
-		else if (colors_match(current_color, color2)) current_color = color0;
-		else if (colors_match(current_color, color3)) current_color = color1;
+		if (distance(current_color, color0) <= precision) current_color = color2;
+		else if (distance(current_color, color1) <= precision) current_color = color3;
+		else if (distance(current_color, color2) <= precision) current_color = color0;
+		else if (distance(current_color, color3) <= precision) current_color = color1;
 		
 		// color 4-7
-		else if (colors_match(current_color, color4)) current_color = color6;
-		else if (colors_match(current_color, color5)) current_color = color7;
-		else if (colors_match(current_color, color6)) current_color = color4;
-		else if (colors_match(current_color, color7)) current_color = color5;
+		else if (distance(current_color, color4) <= precision) current_color = color6;
+		else if (distance(current_color, color5) <= precision) current_color = color7;
+		else if (distance(current_color, color6) <= precision) current_color = color4;
+		else if (distance(current_color, color7) <= precision) current_color = color5;
 		
 		// color 8-11
-		else if (colors_match(current_color, color8)) current_color = color10;
-		else if (colors_match(current_color, color9)) current_color = color11;
-		else if (colors_match(current_color, color10)) current_color = color8;
-		else if (colors_match(current_color, color11)) current_color = color9;
+		else if (distance(current_color, color8) <= precision) current_color = color10;
+		else if (distance(current_color, color9) <= precision) current_color = color11;
+		else if (distance(current_color, color10) <= precision) current_color = color8;
+		else if (distance(current_color, color11) <= precision) current_color = color9;
 		
 		// color 12-15
-		else if (colors_match(current_color, color12)) current_color = color14;
-		else if (colors_match(current_color, color13)) current_color = color15;
-		else if (colors_match(current_color, color14)) current_color = color12;
-		else if (colors_match(current_color, color15)) current_color = color13;
+		else if (distance(current_color, color12) <= precision) current_color = color14;
+		else if (distance(current_color, color13) <= precision) current_color = color15;
+		else if (distance(current_color, color14) <= precision) current_color = color12;
+		else if (distance(current_color, color15) <= precision) current_color = color13;
 	}
 	else if (cycle1 == 2)
 	{
 		// colors 0-3
-		if (colors_match(current_color, color0)) current_color = color3;
-		else if (colors_match(current_color, color1)) current_color = color0;
-		else if (colors_match(current_color, color2)) current_color = color1;
-		else if (colors_match(current_color, color3)) current_color = color2;
+		if (distance(current_color, color0) <= precision) current_color = color3;
+		else if (distance(current_color, color1) <= precision) current_color = color0;
+		else if (distance(current_color, color2) <= precision) current_color = color1;
+		else if (distance(current_color, color3) <= precision) current_color = color2;
 		
 		// color 4-7
-		else if (colors_match(current_color, color4)) current_color = color7;
-		else if (colors_match(current_color, color5)) current_color = color4;
-		else if (colors_match(current_color, color6)) current_color = color5;
-		else if (colors_match(current_color, color7)) current_color = color6;
+		else if (distance(current_color, color4) <= precision) current_color = color7;
+		else if (distance(current_color, color5) <= precision) current_color = color4;
+		else if (distance(current_color, color6) <= precision) current_color = color5;
+		else if (distance(current_color, color7) <= precision) current_color = color6;
 		
 		// color 8-11
-		else if (colors_match(current_color, color8)) current_color = color11;
-		else if (colors_match(current_color, color9)) current_color = color8;
-		else if (colors_match(current_color, color10)) current_color = color9;
-		else if (colors_match(current_color, color11)) current_color = color10;
+		else if (distance(current_color, color8) <= precision) current_color = color11;
+		else if (distance(current_color, color9) <= precision) current_color = color8;
+		else if (distance(current_color, color10) <= precision) current_color = color9;
+		else if (distance(current_color, color11) <= precision) current_color = color10;
 		
 		// color 12-15
-		else if (colors_match(current_color, color12)) current_color = color15;
-		else if (colors_match(current_color, color13)) current_color = color12;
-		else if (colors_match(current_color, color14)) current_color = color13;
-		else if (colors_match(current_color, color15)) current_color = color14;
+		else if (distance(current_color, color12) <= precision) current_color = color15;
+		else if (distance(current_color, color13) <= precision) current_color = color12;
+		else if (distance(current_color, color14) <= precision) current_color = color13;
+		else if (distance(current_color, color15) <= precision) current_color = color14;
 	}
 	
 	// fire effect group 1
 	if (cycle2 == 0)
 	{
 		// colors 16-20
-		if (colors_match(current_color, color16)) current_color = color20;
-		else if (colors_match(current_color, color17)) current_color = color16;
-		else if (colors_match(current_color, color18)) current_color = color17;
-		else if (colors_match(current_color, color19)) current_color = color18;
-		else if (colors_match(current_color, color20)) current_color = color19;
+		if (distance(current_color, color16) <= precision) current_color = color20;
+		else if (distance(current_color, color17) <= precision) current_color = color16;
+		else if (distance(current_color, color18) <= precision) current_color = color17;
+		else if (distance(current_color, color19) <= precision) current_color = color18;
+		else if (distance(current_color, color20) <= precision) current_color = color19;
 	}
 	else if (cycle2 == 1)
 	{
 		// colors 16-20
-		if (colors_match(current_color, color16)) current_color = color19;
-		else if (colors_match(current_color, color17)) current_color = color20;
-		else if (colors_match(current_color, color18)) current_color = color16;
-		else if (colors_match(current_color, color19)) current_color = color17;
-		else if (colors_match(current_color, color20)) current_color = color18;
+		if (distance(current_color, color16) <= precision) current_color = color19;
+		else if (distance(current_color, color17) <= precision) current_color = color20;
+		else if (distance(current_color, color18) <= precision) current_color = color16;
+		else if (distance(current_color, color19) <= precision) current_color = color17;
+		else if (distance(current_color, color20) <= precision) current_color = color18;
 	}
 	else if (cycle2 == 2)
 	{
 		// colors 16-20
-		if (colors_match(current_color, color16)) current_color = color18;
-		else if (colors_match(current_color, color17)) current_color = color19;
-		else if (colors_match(current_color, color18)) current_color = color20;
-		else if (colors_match(current_color, color19)) current_color = color16;
-		else if (colors_match(current_color, color20)) current_color = color17;
+		if (distance(current_color, color16) <= precision) current_color = color18;
+		else if (distance(current_color, color17) <= precision) current_color = color19;
+		else if (distance(current_color, color18) <= precision) current_color = color20;
+		else if (distance(current_color, color19) <= precision) current_color = color16;
+		else if (distance(current_color, color20) <= precision) current_color = color17;
 	}
 	else if (cycle2 == 3)
 	{
 		// colors 16-20
-		if (colors_match(current_color, color16)) current_color = color17;
-		else if (colors_match(current_color, color17)) current_color = color18;
-		else if (colors_match(current_color, color18)) current_color = color19;
-		else if (colors_match(current_color, color19)) current_color = color20;
-		else if (colors_match(current_color, color20)) current_color = color16;
+		if (distance(current_color, color16) <= precision) current_color = color17;
+		else if (distance(current_color, color17) <= precision) current_color = color18;
+		else if (distance(current_color, color18) <= precision) current_color = color19;
+		else if (distance(current_color, color19) <= precision) current_color = color20;
+		else if (distance(current_color, color20) <= precision) current_color = color16;
 	}
 	
 	// fire effect group 2
@@ -167,16 +161,16 @@ void fragment() {
 	if (cycle3 == 0)
 	{
 		// colors 21-23
-		if (colors_match(current_color, color21)) current_color = color23;
-		else if (colors_match(current_color, color22)) current_color = color21;
-		else if (colors_match(current_color, color23)) current_color = color22;
+		if (distance(current_color, color21) <= precision) current_color = color23;
+		else if (distance(current_color, color22) <= precision) current_color = color21;
+		else if (distance(current_color, color23) <= precision) current_color = color22;
 	}
 	if (cycle3 == 1)
 	{
 		// colors 21-23
-		if (colors_match(current_color, color21)) current_color = color22;
-		else if (colors_match(current_color, color22)) current_color = color23;
-		else if (colors_match(current_color, color23)) current_color = color21;
+		if (distance(current_color, color21) <= precision) current_color = color22;
+		else if (distance(current_color, color22) <= precision) current_color = color23;
+		else if (distance(current_color, color23) <= precision) current_color = color21;
 	}
 	
 	COLOR = current_color;
