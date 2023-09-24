@@ -1,53 +1,66 @@
 extends Node
 
-enum IMAGE_FORMAT{FMT_8BIT = 0x04, FMT_4BIT = 0x0a, FMT_4BIT_RLE = 0x08, FMT_5BIT_RLE}
+var _image_entry = {"type":0, "palette": 0, "aux_palette":-1,"width":0, "height":0,"data":[]}
 
-static func load_bitmap_file(filename, palette):
+func new_image(type:int, palette_id:int, aux_pal_id:int = -1):
+	var entry = _image_entry.duplicate()
+	entry["type"] = type
+	entry["palette"] = palette_id
+	entry["aux_palette"] = aux_pal_id
+	return entry
+
+func load_bitmap_file(filename:String, palette:int):
 	var tfile = FileAccess.open(filename, FileAccess.READ)
+	var image_entry = new_image(System.IMAGE_FORMAT.FMT_8BIT, palette)
 	var pixel_data = []
 	var byte_counter = 0
+	var total_pixels
+	image_entry["width"] = 320
+	image_entry["height"] = 200
+	total_pixels = image_entry["width"] * image_entry["height"]
 	
 	if(tfile == null):
 		print("Error opening image file:" + filename)
 		return false
 	
-	pixel_data.resize(320*200*4)
-	while(!tfile.eof_reached() and byte_counter < (320*200)):
-		var byte = tfile.get_8()
-		var color = palette[byte].to_abgr32()
-		pixel_data[byte_counter*4] = color & 0xff
-		pixel_data[(byte_counter*4)+1] = (color & 0xff00) >> 8
-		pixel_data[(byte_counter*4)+2] = (color & 0xff0000) >> 16
-		pixel_data[(byte_counter*4)+3] = 0xff
+	pixel_data.resize(total_pixels)
+	while(!tfile.eof_reached() and byte_counter < (total_pixels)):
+		pixel_data[byte_counter] = tfile.get_8()
 		byte_counter += 1
 	
-	return [Image.create_from_data(320, 200, false, Image.FORMAT_RGBA8, pixel_data)]
+	image_entry["data"] = pixel_data
+	return [image_entry]
 	
 
-static func load_image_file(filename, palette):
-	var images = []
+func load_image_file(filename:String, palette:int):
+	var image_entries = []
 	var tfile = FileAccess.open(filename, FileAccess.READ)
 	
 	if(tfile == null):
 		print("Error opening image file:" + filename)
 		return false
 	
+	# IMAGE FILE HEADER
 	var format = tfile.get_8()
 	var fixed_size = null
-	if (format == 2): fixed_size = tfile.get_8()
+	match format:
+		1:
+			pass
+		2:
+			fixed_size = tfile.get_8()
+		_:
+			print("Unrecognized image file format:", format)
+			return false
 	var image_count = tfile.get_16()
 	var offsets = []
 	# get offsets
 	for i in range(0, image_count):
 		offsets.append(tfile.get_32())
 	
-	# read in image at offsets
-	# an image record is null if:
-	# 	offsets are duplicate
-	#	offsets are out of range
+	# get image at offsets
 	for i in range(0, offsets.size()):
 		
-		# check for null record
+		# ignore null records
 		if (i > 0):
 			if (offsets[i] == offsets[i-1]): continue
 			elif (offsets[i] >= tfile.get_length()): continue
@@ -55,13 +68,10 @@ static func load_image_file(filename, palette):
 		# seek to offset
 		tfile.seek(offsets[i])
 		
-		# get image header information
-		var image_type
-		var color_bytes = 4
-		if (format == 2):
-			image_type = IMAGE_FORMAT.FMT_8BIT
-			color_bytes = 3
-		else: image_type = tfile.get_8()
+		# IMAGE HEADER
+		var image_entry
+		var image_type = System.IMAGE_FORMAT.FMT_8BIT
+		if (format == 1): image_type = tfile.get_8()
 		var width
 		var height
 		if(fixed_size):
@@ -70,39 +80,35 @@ static func load_image_file(filename, palette):
 		else:
 			width = tfile.get_8()
 			height = tfile.get_8()
-		var aux_pal = null
+		var aux_pal = -1
 		var pixel_data = []
-		if (image_type == IMAGE_FORMAT.FMT_4BIT or
-		image_type == IMAGE_FORMAT.FMT_4BIT_RLE ):
+		if (image_type == System.IMAGE_FORMAT.FMT_4BIT or
+		image_type == System.IMAGE_FORMAT.FMT_4BIT_RLE ):
 			aux_pal = tfile.get_8()
 		var data_size
 		if(format == 2): data_size = height*width
 		else: data_size = tfile.get_16()
-		pixel_data.resize(width*height*color_bytes)
+		pixel_data.resize(width*height)
+		
+		# create image entry
+		image_entry = new_image(image_type, palette, aux_pal)
+		image_entry["width"] = width
+		image_entry["height"] = height
 		
 		# if 8 bit uncompressed
-		if (image_type == IMAGE_FORMAT.FMT_8BIT):
+		if (image_type == System.IMAGE_FORMAT.FMT_8BIT):
 			for n in range(0, data_size):
-				var color = palette[tfile.get_8()].to_abgr32()
-				pixel_data[n*color_bytes] = color & 0xff
-				pixel_data[(n*color_bytes)+1] = (color & 0xff00) >> 8
-				pixel_data[(n*color_bytes)+2] = (color & 0xff0000) >> 16
-				if(color_bytes == 4): pixel_data[(n*4)+3] = 0xff # alpha
-		elif (image_type == IMAGE_FORMAT.FMT_4BIT):
+				pixel_data[n] = tfile.get_8()
+		elif (image_type == System.IMAGE_FORMAT.FMT_4BIT):
 			for n in range(0, data_size):
 				var byte = tfile.get_8()
-				var nibs = [(byte & 0xf0) >> 4, byte & 0xf]
-				var nibn = 0
-				for k in nibs:
-					var color = palette[System.cur_data["palettes"]["aux"][aux_pal][k]].to_abgr32()
-					pixel_data[(n*4) + nibn] = color & 0xff
-					pixel_data[(n*4)+1 + nibn] = (color & 0xff00) >> 8
-					pixel_data[(n*4)+2 + nibn] = (color & 0xff0000) >> 16
-					pixel_data[(n*4)+3 + nibn] = 0xff # alpha
-					nibn += 1
-		elif (image_type == IMAGE_FORMAT.FMT_4BIT_RLE or image_type == IMAGE_FORMAT.FMT_5BIT_RLE):
+				if( (n*2) + 1 >= width*height): continue
+				pixel_data[(n*2)] = byte & 0xf0 >> 4
+				pixel_data[(n*2)+1] = byte & 0xf
+		elif (image_type == System.IMAGE_FORMAT.FMT_4BIT_RLE or 
+		image_type == System.IMAGE_FORMAT.FMT_5BIT_RLE):
 			var word_size = 4
-			if(image_type == IMAGE_FORMAT.FMT_5BIT_RLE): word_size = 5
+			if(image_type == System.IMAGE_FORMAT.FMT_5BIT_RLE): word_size = 5
 			if(word_size == 4):	data_size = ceil( float(data_size) / 2.0)
 			# create bitstream
 			var bit_stream = []
@@ -110,29 +116,16 @@ static func load_image_file(filename, palette):
 				var byte = tfile.get_8()
 				for n in range(0, 8):
 					bit_stream.append( (byte & (0x1 << 7-n)) >> (7-n) )
-			var atom_map = decode_rle_bitstream(word_size, bit_stream)
-			if(atom_map.size() > width*height): atom_map.resize(width*height)
-			# use the atom map to map the aux palette indices to colors into the pixel data array
-			for n in range(0, atom_map.size()):
-				var color = palette[System.cur_data["palettes"]["aux"][aux_pal][atom_map[n]]].to_abgr32()
-				pixel_data[(n*4)] = color & 0xff
-				pixel_data[(n*4)+1] = (color & 0xff00) >> 8
-				pixel_data[(n*4)+2] = (color & 0xff0000) >> 16
-				pixel_data[(n*4)+3] = 0xff
-
-			
+			pixel_data = decode_rle_bitstream(word_size, bit_stream)
+			if(pixel_data.size() > width*height): pixel_data.resize(width*height)
 		else:
 			printerr("Error loading graphics file ", filename, " at offset ", offsets[i], " : unrecognized image type ", image_type)
 			return false
-		
 		# done
-		var image_format
-		if(color_bytes == 3): image_format = Image.FORMAT_RGB8
-		else: image_format = Image.FORMAT_RGBA8
-		var image = Image.create_from_data(width, height, false, image_format, pixel_data)
-		images.append(image)
+		image_entry["data"] = pixel_data
+		image_entries.append(image_entry)
 			
-	return images
+	return image_entries
 
 static func decode_rle_bitstream(word_size:int, bits:Array):
 	var repeat_mode = true

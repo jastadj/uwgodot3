@@ -1,21 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://chkejofaqumsx"]
+[gd_scene load_steps=3 format=3 uid="uid://chkejofaqumsx"]
 
 [ext_resource type="Script" path="res://scenes/debug/resource_viewer.gd" id="1_rsrhr"]
-[ext_resource type="PackedScene" uid="uid://cmrc48kg5yucp" path="res://scenes/debug/resource_viewers/palette_viewer.tscn" id="2_wpros"]
-[ext_resource type="PackedScene" uid="uid://b80u1lqkud0yc" path="res://scenes/debug/resource_viewers/aux_palette_viewer.tscn" id="3_cksn5"]
-[ext_resource type="PackedScene" uid="uid://11lhaska2pjv" path="res://scenes/debug/resource_viewers/image_viewer.tscn" id="3_qsha3"]
+[ext_resource type="PackedScene" uid="uid://clevjqk5gqjs8" path="res://scenes/debug/resource_viewers/image_viewer.tscn" id="3_qsha3"]
 
 [node name="resource_viewer" type="Node2D"]
 script = ExtResource("1_rsrhr")
-
-[node name="resource_viewers" type="Node2D" parent="."]
-position = Vector2(254, 8)
-
-[node name="palette_viewer" parent="resource_viewers" instance=ExtResource("2_wpros")]
-
-[node name="aux_palette_viewer" parent="resource_viewers" instance=ExtResource("3_cksn5")]
-
-[node name="image_viewer" parent="resource_viewers" instance=ExtResource("3_qsha3")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -35,14 +24,18 @@ offset_top = 17.0
 offset_right = 130.0
 offset_bottom = 118.0
 
-[node name="button_palettes" type="Button" parent="CanvasLayer/ui/VBoxContainer"]
-layout_mode = 2
-text = "Palettes"
-
-[node name="button_aux_palettes" type="Button" parent="CanvasLayer/ui/VBoxContainer"]
-layout_mode = 2
-text = "Aux Palettes"
-
 [node name="button_images" type="Button" parent="CanvasLayer/ui/VBoxContainer"]
 layout_mode = 2
 text = "Images"
+
+[node name="resource_viewers" type="Control" parent="CanvasLayer/ui"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="image_viewer" parent="CanvasLayer/ui/resource_viewers" instance=ExtResource("3_qsha3")]
+layout_mode = 1

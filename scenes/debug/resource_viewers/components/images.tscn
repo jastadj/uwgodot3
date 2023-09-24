@@ -1,0 +1,77 @@
+[gd_scene load_steps=2 format=3 uid="uid://0hfphtn036vc"]
+
+[ext_resource type="Script" path="res://scenes/debug/resource_viewers/components/images.gd" id="1_ctskp"]
+
+[node name="images" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_ctskp")
+
+[node name="imagescontainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+offset_right = 200.0
+offset_bottom = 70.0
+
+[node name="btn_images" type="OptionButton" parent="imagescontainer"]
+custom_minimum_size = Vector2(350, 0)
+layout_mode = 2
+
+[node name="index_container" type="HBoxContainer" parent="imagescontainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="imagescontainer/index_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Index : "
+horizontal_alignment = 2
+
+[node name="slider_image_index" type="HSlider" parent="imagescontainer/index_container"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="pal_container" type="HBoxContainer" parent="imagescontainer"]
+layout_mode = 2
+
+[node name="pal_label" type="Label" parent="imagescontainer/pal_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Palette:"
+horizontal_alignment = 2
+
+[node name="slider_pal_index" type="HSlider" parent="imagescontainer/pal_container"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="aux-pal_container" type="HBoxContainer" parent="imagescontainer"]
+layout_mode = 2
+
+[node name="aux_label" type="Label" parent="imagescontainer/aux-pal_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Aux Palette:"
+horizontal_alignment = 2
+
+[node name="slider_aux_pal_index" type="HSlider" parent="imagescontainer/aux-pal_container"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="lbl_image_index" type="Label" parent="imagescontainer"]
+layout_mode = 2
+text = "image_index"
+
+[node name="image" type="Sprite2D" parent="imagescontainer"]
+position = Vector2(0, 154)
+centered = false
+
+[connection signal="item_selected" from="imagescontainer/btn_images" to="." method="_on_btn_images_item_selected"]
+[connection signal="value_changed" from="imagescontainer/index_container/slider_image_index" to="." method="_on_slider_image_index_value_changed"]
+[connection signal="value_changed" from="imagescontainer/pal_container/slider_pal_index" to="." method="_on_slider_pal_index_value_changed"]
+[connection signal="value_changed" from="imagescontainer/aux-pal_container/slider_aux_pal_index" to="." method="_on_slider_aux_pal_index_value_changed"]

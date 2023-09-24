@@ -14,7 +14,7 @@ static func load_palette_file(filename):
 			var r = float(pfile.get_8())/64
 			var g = float(pfile.get_8())/64
 			var b = float(pfile.get_8())/64
-			cur_pal.append(Color(r, g, b))
+			cur_pal.append([r, g, b])
 		
 		if (cur_pal.size() == 256):
 			palettes.append(cur_pal)
@@ -24,7 +24,6 @@ static func load_palette_file(filename):
 	return palettes
 
 static func load_aux_palette_file(filename):
-		
 	var aux_palettes = []
 	var pfile = FileAccess.open(filename, FileAccess.READ)
 	if(pfile == null):
@@ -39,6 +38,5 @@ static func load_aux_palette_file(filename):
 		if (cur_pal.size() == 16):
 			aux_palettes.append(cur_pal)
 		else: print("Rejecting incomplete palette of size ", cur_pal.size())
-	
 	pfile.close()
 	return aux_palettes

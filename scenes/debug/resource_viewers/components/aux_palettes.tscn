@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=3 uid="uid://chpg4s2jf5idm"]
+
+[ext_resource type="Script" path="res://scenes/debug/resource_viewers/components/aux_palettes.gd" id="1_l72iy"]
+[ext_resource type="Texture2D" uid="uid://cseyojwy6622n" path="res://art/square_16_16.png" id="2_j6g2l"]
+
+[node name="aux_palettes" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_l72iy")
+
+[node name="aux_palettes_container" type="VBoxContainer" parent="."]
+layout_mode = 1
+offset_right = 200.0
+offset_bottom = 106.0
+
+[node name="Label" type="Label" parent="aux_palettes_container"]
+layout_mode = 2
+text = "Aux Palettes"
+
+[node name="slider_auxpal_index" type="HSlider" parent="aux_palettes_container"]
+layout_mode = 2
+
+[node name="lbl_auxpal_index" type="Label" parent="aux_palettes_container"]
+layout_mode = 2
+text = "image_index"
+
+[node name="lbl_cursor_info" type="Label" parent="aux_palettes_container"]
+layout_mode = 2
+text = "cursor_info"
+
+[node name="auxpalette_grid" type="Node2D" parent="aux_palettes_container"]
+position = Vector2(1, 121)
+
+[node name="square" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("2_j6g2l")
+centered = false
+
+[connection signal="value_changed" from="aux_palettes_container/slider_auxpal_index" to="." method="_on_slider_auxpal_index_value_changed"]

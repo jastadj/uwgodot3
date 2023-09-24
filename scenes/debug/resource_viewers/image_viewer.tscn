@@ -1,33 +1,52 @@
-[gd_scene load_steps=2 format=3 uid="uid://11lhaska2pjv"]
+[gd_scene load_steps=5 format=3 uid="uid://clevjqk5gqjs8"]
 
 [ext_resource type="Script" path="res://scenes/debug/resource_viewers/image_viewer.gd" id="1_33yab"]
+[ext_resource type="PackedScene" uid="uid://0hfphtn036vc" path="res://scenes/debug/resource_viewers/components/images.tscn" id="2_oopxp"]
+[ext_resource type="PackedScene" uid="uid://bbgbxnyspbv4h" path="res://scenes/debug/resource_viewers/components/palettes.tscn" id="3_oa8p2"]
+[ext_resource type="PackedScene" uid="uid://chpg4s2jf5idm" path="res://scenes/debug/resource_viewers/components/aux_palettes.tscn" id="4_edd75"]
 
-[node name="image_viewer" type="Node2D"]
+[node name="image_viewer" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_33yab")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, 85)
-centered = false
-
-[node name="ui" type="Control" parent="."]
-layout_mode = 3
+[node name="images" parent="." instance=ExtResource("2_oopxp")]
+layout_mode = 1
 anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 192.0
+offset_top = 20.0
+offset_right = 192.0
+offset_bottom = 20.0
+grow_horizontal = 1
+grow_vertical = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ui"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="palettes" parent="." instance=ExtResource("3_oa8p2")]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_bottom = 0.0
+offset_left = -292.0
+offset_top = 12.0
+offset_right = -292.0
+offset_bottom = 12.0
+grow_horizontal = 0
+grow_vertical = 1
 
-[node name="OptionButton" type="OptionButton" parent="ui/VBoxContainer"]
-layout_mode = 2
-
-[node name="slider" type="HSlider" parent="ui/VBoxContainer"]
-custom_minimum_size = Vector2(300, 0)
-layout_mode = 2
-focus_mode = 1
-
-[node name="label_index" type="Label" parent="ui/VBoxContainer"]
-layout_mode = 2
-
-[connection signal="item_selected" from="ui/VBoxContainer/OptionButton" to="." method="_on_option_button_item_selected"]
-[connection signal="value_changed" from="ui/VBoxContainer/slider" to="." method="_on_slider_value_changed"]
+[node name="aux_palettes" parent="." instance=ExtResource("4_edd75")]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_bottom = 0.0
+offset_left = -297.0
+offset_top = 419.0
+offset_right = -297.0
+offset_bottom = 419.0
+grow_horizontal = 0
+grow_vertical = 1
