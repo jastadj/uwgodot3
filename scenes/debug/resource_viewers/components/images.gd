@@ -60,11 +60,29 @@ func _reset_palette_sliders():
 			aux_pal_slider.value = cur_image["aux_palette"]
 			_enable_slider(pal_slider, false)
 
+func _update_shader_params():
+	var shader = image.material	
+	
+	for i in range(0,16):
+		var color = palettes[0][i+48]
+		var colorvec = Vector4(color.r,color.g,color.b,color.a)
+		shader.set_shader_parameter(str("color",i), colorvec )
+	for i in range(16,21):
+		var color = palettes[0][i]
+		var colorvec = Vector4(color.r,color.g,color.b,color.a)
+		shader.set_shader_parameter(str("color",i), colorvec )
+	for i in range(21,24):
+		var color = palettes[0][i]
+		var colorvec = Vector4(color.r,color.g,color.b,color.a)
+		shader.set_shader_parameter(str("color",i), colorvec )		
+		
+
 func set_palettes(tpalettes, taux_palettes):
 	palettes = tpalettes
 	aux_palettes = taux_palettes
 	pal_slider.max_value = palettes.size()-1
 	aux_pal_slider.max_value = aux_palettes.size()-1
+	#_update_shader_params()
 	draw_image()
 	
 func draw_image():
@@ -75,10 +93,10 @@ func draw_image():
 	pal_label.text = str("Palette[", pal_val, "]:")
 	aux_label.text = str("Aux Palette[", aux_pal_val, "]:")
 	var cur_image = System.cur_data["raws"]["images"][image_set][image_slider.value]
-	
 	var newimage = System.generate_image_from_image_entry(cur_image, palettes[pal_val], aux_palettes[aux_pal_val])
 	image.texture = ImageTexture.create_from_image(newimage)
 	image.scale = Vector2(image_scale,image_scale)
+	_update_shader_params()
 			
 
 

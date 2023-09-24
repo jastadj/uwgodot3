@@ -1,6 +1,35 @@
-[gd_scene load_steps=2 format=3 uid="uid://0hfphtn036vc"]
+[gd_scene load_steps=4 format=3 uid="uid://0hfphtn036vc"]
 
 [ext_resource type="Script" path="res://scenes/debug/resource_viewers/components/images.gd" id="1_ctskp"]
+[ext_resource type="Shader" path="res://shaders/palette_rotation_uw1.gdshader" id="2_klwp1"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hf65y"]
+shader = ExtResource("2_klwp1")
+shader_parameter/speed_ms = 500.0
+shader_parameter/color0 = null
+shader_parameter/color1 = null
+shader_parameter/color2 = null
+shader_parameter/color3 = null
+shader_parameter/color4 = null
+shader_parameter/color5 = null
+shader_parameter/color6 = null
+shader_parameter/color7 = null
+shader_parameter/color8 = null
+shader_parameter/color9 = null
+shader_parameter/color10 = null
+shader_parameter/color11 = null
+shader_parameter/color12 = null
+shader_parameter/color13 = null
+shader_parameter/color14 = null
+shader_parameter/color15 = null
+shader_parameter/color16 = null
+shader_parameter/color17 = null
+shader_parameter/color18 = null
+shader_parameter/color19 = null
+shader_parameter/color20 = null
+shader_parameter/color21 = null
+shader_parameter/color22 = null
+shader_parameter/color23 = null
 
 [node name="images" type="Control"]
 layout_mode = 3
@@ -68,6 +97,7 @@ layout_mode = 2
 text = "image_index"
 
 [node name="image" type="Sprite2D" parent="imagescontainer"]
+material = SubResource("ShaderMaterial_hf65y")
 position = Vector2(0, 154)
 centered = false
 
