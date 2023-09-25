@@ -1,5 +1,3 @@
-extends Node
-
 static func load_palette_file(filename):
 	
 	var palettes = []

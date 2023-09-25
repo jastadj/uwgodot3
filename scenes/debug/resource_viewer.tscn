@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://chkejofaqumsx"]
+[gd_scene load_steps=4 format=3 uid="uid://chkejofaqumsx"]
 
 [ext_resource type="Script" path="res://scenes/debug/resource_viewer.gd" id="1_rsrhr"]
+[ext_resource type="PackedScene" uid="uid://dy65fs7jja3ck" path="res://scenes/debug/resource_viewers/font_viewer.tscn" id="3_8bhsx"]
 [ext_resource type="PackedScene" uid="uid://clevjqk5gqjs8" path="res://scenes/debug/resource_viewers/image_viewer.tscn" id="3_qsha3"]
 
 [node name="resource_viewer" type="Node2D"]
@@ -28,6 +29,10 @@ offset_bottom = 118.0
 layout_mode = 2
 text = "Images"
 
+[node name="button_fonts" type="Button" parent="CanvasLayer/ui/VBoxContainer"]
+layout_mode = 2
+text = "Fonts"
+
 [node name="resource_viewers" type="Control" parent="CanvasLayer/ui"]
 layout_mode = 1
 anchors_preset = 15
@@ -38,4 +43,7 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="image_viewer" parent="CanvasLayer/ui/resource_viewers" instance=ExtResource("3_qsha3")]
+layout_mode = 1
+
+[node name="font_viewer" parent="CanvasLayer/ui/resource_viewers" instance=ExtResource("3_8bhsx")]
 layout_mode = 1

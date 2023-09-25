@@ -3,11 +3,29 @@ extends Node
 const raws_file = "raws.json"
 enum IMAGE_FORMAT{FMT_8BIT = 0x04, FMT_4BIT = 0x0a, FMT_4BIT_RLE = 0x08, FMT_5BIT_RLE = 0x06}
 
-var uw1_data = {"name":"uw1","path":"./uw_data", "loaded":false, "raws":{} ,"palettes":{}, "images":{}}
+# data types
+var image_type = load("res://system/data_types/image.gd").new()
+var font_type = load("res://system/data_types/font.gd").new()
+
+var uw1_data = {"name":"uw1","path":"./uw_data", "loaded":false, "raws":{} ,"palettes":{}, "images":{}, "fonts":{}}
 var cur_data = uw1_data
 
 func _ready():
 	pass
+
+func new_image(type:int, palette_id:int, aux_pal_id:int = -1):
+	var entry = image_type.data.duplicate()
+	entry["type"] = type
+	entry["palette"] = palette_id
+	entry["aux_palette"] = aux_pal_id
+	return entry
+
+func new_font(space_width:int, height:int, max_width:int):
+	var entry = font_type.data.duplicate()
+	entry["space_width"] = space_width
+	entry["height"] = height
+	entry["max_width"] = max_width
+	return entry
 
 func load_uw1_resources(callable:Callable):
 	
@@ -44,6 +62,24 @@ func generate_image_from_image_entry(image_entry, palette, aux_palette):
 			pixel_data[(pixeli*4)+2] = (color & 0xff0000) >> 16
 			pixel_data[(pixeli*4)+3] = 0xff
 	return Image.create_from_data(image_entry["width"], image_entry["height"],false, Image.FORMAT_RGBA8, pixel_data)
+
+func generate_font_from_font_entry(font_entry):
+	var chars = []
+	for char in range(0, font_entry["data"].size()):
+		var width = font_entry["data"][char]["width"]
+		var height = font_entry["data"][char]["char"].size()
+		if ( width == 0): chars.push_back(null)
+		else:
+			var pixel_data = []
+			for bits in font_entry["data"][char]["char"]:
+				for n in range(0, width):
+					var bit = (bits >> (width-n-1)) & 0x1
+					var fillval = 0x00
+					if(bit == 0x1):
+						fillval = 0xff
+					for k in range(0,4): pixel_data.append(fillval)
+			chars.push_back(Image.create_from_data(width, height, false, Image.FORMAT_RGBA8, pixel_data))
+	return chars
 
 func print_data_keys(data:Dictionary, indent:int = 0):
 	var indent_str = String()

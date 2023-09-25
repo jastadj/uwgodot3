@@ -1,17 +1,6 @@
-extends Node
-
-var _image_entry = {"type":0, "palette": 0, "aux_palette":-1,"width":0, "height":0,"data":[]}
-
-func new_image(type:int, palette_id:int, aux_pal_id:int = -1):
-	var entry = _image_entry.duplicate()
-	entry["type"] = type
-	entry["palette"] = palette_id
-	entry["aux_palette"] = aux_pal_id
-	return entry
-
-func load_bitmap_file(filename:String, palette:int):
+static func load_bitmap_file(filename:String, palette:int):
 	var tfile = FileAccess.open(filename, FileAccess.READ)
-	var image_entry = new_image(System.IMAGE_FORMAT.FMT_8BIT, palette)
+	var image_entry = System.new_image(System.IMAGE_FORMAT.FMT_8BIT, palette)
 	var pixel_data = []
 	var byte_counter = 0
 	var total_pixels
@@ -32,7 +21,7 @@ func load_bitmap_file(filename:String, palette:int):
 	return [image_entry]
 	
 
-func load_image_file(filename:String, palette:int):
+static func load_image_file(filename:String, palette:int):
 	var image_entries = []
 	var tfile = FileAccess.open(filename, FileAccess.READ)
 	
@@ -91,7 +80,7 @@ func load_image_file(filename:String, palette:int):
 		pixel_data.resize(width*height)
 		
 		# create image entry
-		image_entry = new_image(image_type, palette, aux_pal)
+		image_entry = System.new_image(image_type, palette, aux_pal)
 		image_entry["width"] = width
 		image_entry["height"] = height
 		

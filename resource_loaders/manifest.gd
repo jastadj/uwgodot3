@@ -1,6 +1,4 @@
-extends Node
-
-enum RESOURCE_TYPES{PALETTE, AUX_PALETTE, TEXTURE, GRAPHIC, BITMAP}
+enum RESOURCE_TYPES{PALETTE, AUX_PALETTE, TEXTURE, GRAPHIC, BITMAP, FONT}
 
 signal loading(loadstring, cur, total)
 
@@ -22,7 +20,8 @@ func load_manifest_file(uw_data:Dictionary, manifest_filename:String, data_path_
 	
 	# Resource Loaders
 	var palette_loader = load( "res://resource_loaders/palettes.gd")
-	var graphics_loader = load("res://resource_loaders/graphics.gd").new()
+	var graphics_loader = load("res://resource_loaders/graphics.gd")
+	var font_loader = load("res://resource_loaders/fonts.gd")
 	
 	# Is uw_data a Dictionary?
 	if!(uw_data is Dictionary):
@@ -104,6 +103,8 @@ func load_manifest_file(uw_data:Dictionary, manifest_filename:String, data_path_
 				result = graphics_loader.load_image_file(filepath, palette)
 			RESOURCE_TYPES.BITMAP:
 				result = graphics_loader.load_bitmap_file(filepath, palette)
+			RESOURCE_TYPES.FONT:
+				result = font_loader.load_font_file(filepath)
 			_:
 				printerr("Error loading manifest, unhandled resource type ", type)
 				tfile.close()
@@ -111,7 +112,9 @@ func load_manifest_file(uw_data:Dictionary, manifest_filename:String, data_path_
 		
 		if(result is Array):
 			for element in result:
-				uw_data[base][keyname].append(element)		
+				uw_data[base][keyname].append(element)
+		elif (result is Dictionary):
+			uw_data[base][keyname] = result
 		elif (result is bool):
 			printerr("Error loading resource type ", type, " from file ", filepath)
 			tfile.close()

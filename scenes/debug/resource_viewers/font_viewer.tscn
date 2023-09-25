@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=3 uid="uid://dy65fs7jja3ck"]
+
+[ext_resource type="Script" path="res://scenes/debug/resource_viewers/font_viewer.gd" id="1_2q12c"]
+
+[node name="font_viewer" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_2q12c")
+
+[node name="font_list" type="OptionButton" parent="."]
+layout_mode = 0
+offset_left = 169.0
+offset_top = 18.0
+offset_right = 183.0
+offset_bottom = 38.0
+
+[node name="text_entry" type="LineEdit" parent="."]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -33.5313
+offset_top = -127.0
+offset_right = 33.5313
+offset_bottom = -96.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "This is a test."
+
+[node name="chars" type="Node2D" parent="."]
+position = Vector2(222, 112)
+
+[connection signal="item_selected" from="font_list" to="." method="_on_font_list_item_selected"]
+[connection signal="text_changed" from="text_entry" to="." method="_on_text_entry_text_changed"]
