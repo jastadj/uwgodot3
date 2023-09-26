@@ -4,7 +4,7 @@ signal loading(loadstring, cur, total)
 
 func load_manifest_file(uw_data:Dictionary, manifest_filename:String, data_path_str:String):
 		
-	var MANIFEST_HEADER = PackedStringArray(["Filename","Type","Base","Name", "Palette", "Font Max Width"])
+	var MANIFEST_HEADER = PackedStringArray(["Filename","Type","Base","Name", "Palette"])
 	var manifest_entries = []
 	var line_counter = 0
 	var data_path = DirAccess.open(data_path_str)
@@ -65,7 +65,6 @@ func load_manifest_file(uw_data:Dictionary, manifest_filename:String, data_path_
 		var base = entry[2]
 		var keyname = entry[3]
 		var palette = entry[4]
-		var font_max_width = entry[5]
 		
 		emit_signal("loading", [filename,entryi, manifest_entries.size()])
 		
@@ -91,9 +90,6 @@ func load_manifest_file(uw_data:Dictionary, manifest_filename:String, data_path_
 		# If Name Key does not exist, create it.
 		if(!uw_data[base].has(keyname)): uw_data[base][keyname] = []
 		
-		# Convert font max width to bool
-		font_max_width = (font_max_width != "")
-		
 		# Load the resource type.
 		var result
 		match(RESOURCE_TYPES.get(type)):
@@ -108,7 +104,7 @@ func load_manifest_file(uw_data:Dictionary, manifest_filename:String, data_path_
 			RESOURCE_TYPES.BITMAP:
 				result = graphics_loader.load_bitmap_file(filepath, palette)
 			RESOURCE_TYPES.FONT:
-				result = font_loader.load_font_file(filepath, font_max_width)
+				result = font_loader.load_font_file(filepath)
 			_:
 				printerr("Error loading manifest, unhandled resource type ", type)
 				tfile.close()
