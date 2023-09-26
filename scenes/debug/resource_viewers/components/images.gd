@@ -19,6 +19,10 @@ var image_set
 
 func _ready():
 	
+	if(!System.cur_data["raws"].has("images") or !System.cur_data["raws"].has("palettes")):
+		visible = false
+		return
+	
 	# build image list
 	var images_list = []
 	for key in System.cur_data["raws"]["images"]:

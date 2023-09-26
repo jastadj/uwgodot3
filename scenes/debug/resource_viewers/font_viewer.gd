@@ -8,6 +8,7 @@ var font_scale = 8
 func _ready():
 	
 	var fontnames = []
+	if(!System.cur_data["raws"].has("fonts")): return
 	for fontname in System.cur_data["raws"]["fonts"].keys():
 		fontnames.append(fontname)
 	fontnames.sort()

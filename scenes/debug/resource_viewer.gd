@@ -11,6 +11,13 @@ var current_viewer = null
 func _ready():
 	button_images.connect("pressed", Callable(select_viewer).bind(image_viewer) )
 	button_fonts.connect("pressed", Callable(select_viewer).bind(font_viewer) )
+	
+	if(!System.cur_data["raws"].has("palettes")):
+		button_images.disabled = true
+	if(!System.cur_data["raws"].has("fonts")):
+		button_fonts.disabled = true
+
+	
 	hide_all_viewers()
 
 func select_viewer(viewer):

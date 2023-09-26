@@ -1,3 +1,5 @@
 # Godot 4+ specific ignores
 .godot/
 uw_data
+doc/*.import
+system/manifests/*~lock*

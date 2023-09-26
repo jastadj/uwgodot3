@@ -12,6 +12,10 @@ var grid_rect = Rect2()
 
 func _init_palettes():
 	
+	if(!System.cur_data["raws"].has("palettes")):
+		visible = false
+		return
+	
 	_clear_palette()
 	aux_palettes = []
 	

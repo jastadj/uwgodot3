@@ -1,4 +1,4 @@
-static func load_font_file(filename:String):
+static func load_font_file(filename:String, use_max_width:bool = false):
 	var tfile = FileAccess.open(filename, FileAccess.READ)
 	
 	if(tfile == null):
@@ -23,15 +23,21 @@ static func load_font_file(filename:String):
 		for row in range(0, font_height_px):
 			var rowbits = 0
 			for b in range(0, row_bytes):
-				rowbits = rowbits | (tfile.get_8() << (b*8) )
+				rowbits = rowbits | (tfile.get_8() << ((row_bytes-1-b)*8) )
 			rowdata.append(rowbits)
 		char_width_px = tfile.get_8()
+		#if(use_max_width): char_width_px = row_bytes*8
 		newchar = {"width":char_width_px, "char":[]}
 		
 		# resize font rows
 		for k in range(0, rowdata.size()):
 			rowdata[k] = rowdata[k] >> ((row_bytes*8) - char_width_px)
 		newchar["char"] = rowdata
+		#debug
+		if(i == 0x41 && use_max_width ):
+			print(newchar)
+			var stophere = true
+			
 		chars.append(newchar)
 			
 	new_font["data"] = chars

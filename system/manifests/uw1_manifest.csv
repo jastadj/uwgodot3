@@ -37,3 +37,8 @@ TMOBJ.GR,graphic,images,wall_decals2,
 WEAPONS.GR,graphic,images,weapons,
 WIN1.BYT,bitmap,images,endgame1,7
 WIN2.BYT,bitmap,images,endgame2,7
+FONT4X5P.SYS,font,fonts,font4x5p,
+FONT5X6I.SYS,font,fonts,font5x6i,
+FONT5X6P.SYS,font,fonts,font5x6p,
+FONTCHAR.SYS,font,fonts,fontchar,
+FONTBIG.SYS,font,fonts,fontbig,

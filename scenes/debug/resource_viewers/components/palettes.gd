@@ -11,6 +11,10 @@ var grid_rect = Rect2()
 
 func _ready():
 	
+	if(!System.cur_data["raws"].has("palettes")):
+		visible = false
+		return
+	
 	# generate palettes
 	for palette in System.cur_data["raws"]["palettes"]["main"]:
 		var color_list = []
