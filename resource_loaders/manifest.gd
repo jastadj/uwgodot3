@@ -2,21 +2,12 @@ enum RESOURCE_TYPES{PALETTE, AUX_PALETTE, TEXTURE, GRAPHIC, BITMAP, FONT}
 
 signal loading(loadstring, cur, total)
 
-func load_manifest_file(uw_data:Dictionary, manifest_filename:String, data_path_str:String):
-		
-	var MANIFEST_HEADER = PackedStringArray(["Filename","Type","Base","Name", "Palette"])
+func load_manifest_file(uw_data:Dictionary, manifest_filename:String):
+	
+	# manifest data
+	var MANIFEST_HEADER = PackedStringArray(["Directory","Filename","Type","Base","Name", "Palette"])
 	var manifest_entries = []
 	var line_counter = 0
-	var data_path = DirAccess.open(data_path_str)
-	var data_path_files = null
-	
-	# Check that the data_path directory exists.
-	if(!data_path):
-		printerr("Error loading manifest file, unable to find data directory:", data_path_str)
-		return false
-	
-	# Get files in data directory.
-	data_path_files = data_path.get_files()
 	
 	# Resource Loaders
 	var palette_loader = load( "res://resource_loaders/palettes.gd")
@@ -42,10 +33,10 @@ func load_manifest_file(uw_data:Dictionary, manifest_filename:String, data_path_
 	
 	line_counter += 1
 	
-	# Read in each manifest entry and load the resource.
+	# Collect manifest entries.
 	while !tfile.eof_reached():
 		var manifest_entry = tfile.get_csv_line()
-		
+			
 		# Ignore empty lines (generally at the EOF)
 		if(manifest_entry.size() == 0 or manifest_entry.size() == 1):
 			continue
@@ -59,25 +50,24 @@ func load_manifest_file(uw_data:Dictionary, manifest_filename:String, data_path_
 	
 	for entryi in range(0,manifest_entries.size()):
 		var entry = manifest_entries[entryi]
-		var filename = entry[0]
-		var filepath
-		var type = entry[1].to_upper()
-		var base = entry[2]
-		var keyname = entry[3]
-		var palette = entry[4]
+		var dir = entry[0]
+		var filename = entry[1]
+		var filepath = str(uw_data["path"],"/",dir,"/",filename)
+		var type = entry[2].to_upper()
+		var base = entry[3]
+		var keyname = entry[4]
+		var palette = entry[5]
 		
-		emit_signal("loading", [filename,entryi, manifest_entries.size()])
+		emit_signal("loading", [filepath, entryi, manifest_entries.size()])
 		
 		# manifest palette entry
 		if (palette == ""): palette = 0
 		else: palette = palette.to_int()
 		
 		# Does file exist?
-		if(!data_path_files.has(filename)):
-			printerr("Error loading manifest, unable to find file on line ",line_counter,":", filename)
+		if(!FileAccess.file_exists(filepath)):
+			printerr("Error loading manifest, unable to find file on line ",line_counter,":", filepath)
 			return false
-			
-		filepath = data_path_str + "/" + filename
 		
 		# Does type exists?
 		if(!RESOURCE_TYPES.has(type)):
@@ -85,10 +75,10 @@ func load_manifest_file(uw_data:Dictionary, manifest_filename:String, data_path_
 			return false
 		
 		# If Base Key does not exist, create it.
-		if(!uw_data.has(base)): uw_data[base] = {}
+		if(!uw_data["raws"].has(base)): uw_data["raws"][base] = {}
 		
 		# If Name Key does not exist, create it.
-		if(!uw_data[base].has(keyname)): uw_data[base][keyname] = []
+		if(!uw_data["raws"][base].has(keyname)): uw_data["raws"][base][keyname] = []
 		
 		# Load the resource type.
 		var result
@@ -112,9 +102,9 @@ func load_manifest_file(uw_data:Dictionary, manifest_filename:String, data_path_
 		
 		if(result is Array):
 			for element in result:
-				uw_data[base][keyname].append(element)
+				uw_data["raws"][base][keyname].append(element)
 		elif (result is Dictionary):
-			uw_data[base][keyname] = result
+			uw_data["raws"][base][keyname] = result
 		elif (result is bool):
 			printerr("Error loading resource type ", type, " from file ", filepath)
 			tfile.close()

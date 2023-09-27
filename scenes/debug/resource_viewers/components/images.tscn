@@ -96,9 +96,13 @@ size_flags_horizontal = 10
 layout_mode = 2
 text = "image_index"
 
+[node name="lbl_image_info" type="Label" parent="imagescontainer"]
+layout_mode = 2
+text = "image_info"
+
 [node name="image" type="Sprite2D" parent="imagescontainer"]
 material = SubResource("ShaderMaterial_hf65y")
-position = Vector2(0, 154)
+position = Vector2(0, 190)
 centered = false
 
 [connection signal="item_selected" from="imagescontainer/btn_images" to="." method="_on_btn_images_item_selected"]

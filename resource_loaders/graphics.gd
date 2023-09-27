@@ -88,11 +88,12 @@ static func load_image_file(filename:String, palette:int):
 		if (image_type == System.IMAGE_FORMAT.FMT_8BIT):
 			for n in range(0, data_size):
 				pixel_data[n] = tfile.get_8()
+		#  if 4 bit uncompressed
 		elif (image_type == System.IMAGE_FORMAT.FMT_4BIT):
 			for n in range(0, data_size):
 				var byte = tfile.get_8()
-				if( (n*2) + 1 >= width*height): continue
 				pixel_data[(n*2)] = byte & 0xf0 >> 4
+				if( (n*2) + 1 >= width*height): continue
 				pixel_data[(n*2)+1] = byte & 0xf
 		elif (image_type == System.IMAGE_FORMAT.FMT_4BIT_RLE or 
 		image_type == System.IMAGE_FORMAT.FMT_5BIT_RLE):

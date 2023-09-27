@@ -13,6 +13,7 @@ var aux_palettes = null
 @onready var aux_label = $"imagescontainer/aux-pal_container/aux_label"
 @onready var index_label = $imagescontainer/lbl_image_index
 @onready var image = $imagescontainer/image
+@onready var image_info = $imagescontainer/lbl_image_info
 
 var image_scale = 4
 var image_set
@@ -97,6 +98,7 @@ func draw_image():
 	pal_label.text = str("Palette[", pal_val, "]:")
 	aux_label.text = str("Aux Palette[", aux_pal_val, "]:")
 	var cur_image = System.cur_data["raws"]["images"][image_set][image_slider.value]
+	image_info.text = str("Type:", cur_image["type"])
 	var newimage = System.generate_image_from_image_entry(cur_image, palettes[pal_val], aux_palettes[aux_pal_val])
 	image.texture = ImageTexture.create_from_image(newimage)
 	image.scale = Vector2(image_scale,image_scale)

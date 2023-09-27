@@ -35,14 +35,11 @@ func load_uw1_resources(callable:Callable):
 	
 	manifest_loader.connect("loading", callable)
 	
-	# UW Data Path
-	var data_path = str(uw1_path + "/UWDATA/")
-	
 	print("Loading UW1 resources...")
 	cur_data = uw1_data
 	
 	# Load files from manifest
-	return manifest_loader.load_manifest_file(cur_data["raws"], manifest_file, data_path)
+	return manifest_loader.load_manifest_file( uw1_data, manifest_file)
 
 func generate_image_from_image_entry(image_entry, palette, aux_palette):
 	var pixel_data = []
@@ -56,7 +53,7 @@ func generate_image_from_image_entry(image_entry, palette, aux_palette):
 			pixel_data[(pixeli*4)+3] = 0xff
 	else:
 		for pixeli in range(0, image_entry["data"].size()):
-			var color = palette[aux_palette[image_entry["data"][pixeli]]].to_abgr32()
+			var color = aux_palette[image_entry["data"][pixeli]].to_abgr32()
 			pixel_data[(pixeli*4)] = color & 0xff
 			pixel_data[(pixeli*4)+1] = (color & 0xff00) >> 8
 			pixel_data[(pixeli*4)+2] = (color & 0xff0000) >> 16
