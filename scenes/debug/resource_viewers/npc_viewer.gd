@@ -69,11 +69,11 @@ func _update_animation(from_npc:bool = false):
 	# if the animation type is changing
 	if(cur_anim_type != anims[animation_button.selected]):
 		cur_anim_type = anims[animation_button.selected]
+		slider_aux_pal.max_value = cur_anim_type["aux_pals"].size()-1
 		valid_anims = []
 		for i in range(0, cur_anim_type["anims"].size()):
 			if(cur_anim_type["anims"][i] != null): valid_anims.push_back(i)
 		aux_palette = System.generate_aux_palette(cur_anim_type["aux_pals"][slider_aux_pal.value], palette)
-		slider_aux_pal.max_value = cur_anim_type["aux_pals"].size()-1
 		slider_anim_index.max_value = valid_anims.size()-1
 		_update_animation_frames()
 	if(from_npc):

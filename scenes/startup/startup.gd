@@ -1,7 +1,7 @@
 extends Node2D
 
-const DEBUG = 1
-const FORCE_SOURCE_LOAD = 1
+const DEBUG = 0
+const FORCE_SOURCE_LOAD = 0
 
 @onready var loadstring = $CanvasLayer/ui/loadcontainer/loadstring
 @onready var progressbar = $CanvasLayer/ui/loadcontainer/ProgressBar
@@ -19,9 +19,15 @@ func load_resources():
 	var result = false
 	
 	if(!FORCE_SOURCE_LOAD):
-		load_source = System.load_data("uw1")
+		loadstring.text = str("Loading data...")
+		result = System.load_data("uw1")
+		if(result):
+			loadstring.text = str("Done.")
+			load_source = false
+		else: load_source = true
 	
 	if(load_source):
+		$CanvasLayer/ui/loadcontainer.visible = true
 		# import source data files
 		result = System.load_uw1_resources(Callable(update_progress))
 		if (DEBUG): System.print_data_keys(System.cur_data)

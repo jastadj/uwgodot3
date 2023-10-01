@@ -77,14 +77,14 @@ func generate_aux_palette(aux_pal_array:Array, reference_palette:Array):
 func generate_font_from_font_entry(font_entry):
 	var chars = []
 	for char in range(0, font_entry["data"].size()):
-		var width = font_entry["data"][char]["width"]
-		var height = font_entry["data"][char]["char"].size()
+		var width = int(font_entry["data"][char]["width"])
+		var height = int(font_entry["data"][char]["char"].size())
 		if ( width == 0): chars.push_back(null)
 		else:
 			var pixel_data = []
 			for bits in font_entry["data"][char]["char"]:
 				for n in range(0, width):
-					var bit = (bits >> (width-n-1)) & 0x1
+					var bit = (int(bits) >> (width-n-1)) & 0x1
 					var fillval = 0x00
 					if(bit == 0x1):
 						fillval = 0xff
