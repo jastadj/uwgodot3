@@ -60,6 +60,20 @@ func generate_image_from_image_entry(image_entry, palette, aux_palette):
 			pixel_data[(pixeli*4)+3] = 0xff
 	return Image.create_from_data(image_entry["width"], image_entry["height"],false, Image.FORMAT_RGBA8, pixel_data)
 
+func generate_palette(palette_array:Array):
+	var palette = []
+	# generate palette
+	for color in palette_array:
+		palette.append(Color(color[0], color[1], color[2]))
+	return palette
+
+func generate_aux_palette(aux_pal_array:Array, reference_palette:Array):
+	var aux_palette = []
+	# generate palettes
+	for index in aux_pal_array:
+		aux_palette.append(reference_palette[index])
+	return aux_palette
+
 func generate_font_from_font_entry(font_entry):
 	var chars = []
 	for char in range(0, font_entry["data"].size()):

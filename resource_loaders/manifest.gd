@@ -1,11 +1,11 @@
-enum RESOURCE_TYPES{PALETTE, AUX_PALETTE, TEXTURE, GRAPHIC, BITMAP, FONT}
+enum RESOURCE_TYPES{PALETTE, AUX_PALETTE, TEXTURE, GRAPHIC, BITMAP, FONT, NPC_ASSOC, NPC_ANIM}
 
 signal loading(loadstring, cur, total)
 
 func load_manifest_file(uw_data:Dictionary, manifest_filename:String):
 	
 	# manifest data
-	var MANIFEST_HEADER = PackedStringArray(["Directory","Filename","Type","Base","Name", "Palette"])
+	var MANIFEST_HEADER = PackedStringArray(["Directory","Filename","Type","Base","Name", "Palette","Anim"])
 	var manifest_entries = []
 	var line_counter = 0
 	
@@ -13,6 +13,7 @@ func load_manifest_file(uw_data:Dictionary, manifest_filename:String):
 	var palette_loader = load( "res://resource_loaders/palettes.gd")
 	var graphics_loader = load("res://resource_loaders/graphics.gd")
 	var font_loader = load("res://resource_loaders/fonts.gd")
+	var npc_loader = load("res://resource_loaders/npc.gd")
 	
 	# Is uw_data a Dictionary?
 	if!(uw_data is Dictionary):
@@ -57,6 +58,7 @@ func load_manifest_file(uw_data:Dictionary, manifest_filename:String):
 		var base = entry[3]
 		var keyname = entry[4]
 		var palette = entry[5]
+		var anim = int(entry[6])
 		
 		emit_signal("loading", [filepath, entryi, manifest_entries.size()])
 		
@@ -77,12 +79,15 @@ func load_manifest_file(uw_data:Dictionary, manifest_filename:String):
 		# If Base Key does not exist, create it.
 		if(!uw_data["raws"].has(base)): uw_data["raws"][base] = {}
 		
-		# If Name Key does not exist, create it.
-		if(!uw_data["raws"][base].has(keyname)): uw_data["raws"][base][keyname] = []
+		# If Name Key, and Name Key does not exist, create it.
+		if(keyname != ""):
+			if(!uw_data["raws"][base].has(keyname)):
+				uw_data["raws"][base][keyname] = []
 		
 		# Load the resource type.
 		var result
-		match(RESOURCE_TYPES.get(type)):
+		type = RESOURCE_TYPES.get(type)
+		match(type):
 			RESOURCE_TYPES.PALETTE:
 				result = palette_loader.load_palette_file(filepath)
 			RESOURCE_TYPES.AUX_PALETTE:
@@ -95,20 +100,42 @@ func load_manifest_file(uw_data:Dictionary, manifest_filename:String):
 				result = graphics_loader.load_bitmap_file(filepath, palette)
 			RESOURCE_TYPES.FONT:
 				result = font_loader.load_font_file(filepath)
+			RESOURCE_TYPES.NPC_ASSOC:
+				result = npc_loader.load_assoc_file(filepath)
+			RESOURCE_TYPES.NPC_ANIM:
+				result = npc_loader.load_npc_anim_file(filepath)
 			_:
 				printerr("Error loading manifest, unhandled resource type ", type)
 				tfile.close()
 				return false
 		
-		if(result is Array):
-			for element in result:
-				uw_data["raws"][base][keyname].append(element)
-		elif (result is Dictionary):
-			uw_data["raws"][base][keyname] = result
-		elif (result is bool):
-			printerr("Error loading resource type ", type, " from file ", filepath)
-			tfile.close()
-			return false
+		var append_base
+		if(keyname == ""):
+			if(type == RESOURCE_TYPES.NPC_ANIM):
+				var frame_offset = uw_data["raws"][base]["npc_animations"][anim]["frames"].size()
+				for animation in result["anims"]:
+					if (animation != null and frame_offset):
+						var newsequence = []
+						for sequence in animation:
+							newsequence.push_back(sequence + frame_offset)
+						animation = newsequence
+					uw_data["raws"][base]["npc_animations"][anim]["anims"].push_back(animation)
+				for frame in result["frames"]:
+					uw_data["raws"][base]["npc_animations"][anim]["frames"].push_back(frame)
+				uw_data["raws"][base]["npc_animations"][anim]["aux_pals"] = result["aux_pals"]
+			else:
+				uw_data["raws"][base] = result
+		else:
+			if(result is Array):
+				uw_data["raws"][base][keyname].resize(result.size())
+				for element in range(0, result.size()):
+					uw_data["raws"][base][keyname][element] = result[element]
+			elif (result is Dictionary):
+				uw_data["raws"][base][keyname] = result
+			elif (result is bool):
+				printerr("Error loading resource type ", type, " from file ", filepath)
+				tfile.close()
+				return false
 		
 		print("Loaded ", result.size(), " entries of ", type," to [",base,"][", keyname,"]")
 		line_counter += 1

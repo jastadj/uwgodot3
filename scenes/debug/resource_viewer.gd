@@ -1,16 +1,20 @@
 extends Node2D
 
-@onready var image_viewer = $CanvasLayer/ui/resource_viewers/image_viewer
-@onready var button_images = $CanvasLayer/ui/VBoxContainer/button_images
+@onready var image_viewer = $CanvasLayer/ui/HBoxContainer/resource_viewers/image_viewer
+@onready var button_images = $CanvasLayer/ui/HBoxContainer/VBoxContainer/button_images
 
-@onready var font_viewer = $CanvasLayer/ui/resource_viewers/font_viewer
-@onready var button_fonts = $CanvasLayer/ui/VBoxContainer/button_fonts
+@onready var font_viewer = $CanvasLayer/ui/HBoxContainer/resource_viewers/font_viewer
+@onready var button_fonts = $CanvasLayer/ui/HBoxContainer/VBoxContainer/button_fonts
+
+@onready var npc_viewer = $CanvasLayer/ui/HBoxContainer/resource_viewers/npc_viewer
+@onready var button_npcs = $CanvasLayer/ui/HBoxContainer/VBoxContainer/button_npcs
 
 var current_viewer = null
 
 func _ready():
 	button_images.connect("pressed", Callable(select_viewer).bind(image_viewer) )
 	button_fonts.connect("pressed", Callable(select_viewer).bind(font_viewer) )
+	button_npcs.connect("pressed", Callable(select_viewer).bind(npc_viewer))
 	
 	if(!System.cur_data["raws"].has("palettes")):
 		button_images.disabled = true
@@ -30,5 +34,6 @@ func select_viewer(viewer):
 	current_viewer = viewer
 
 func hide_all_viewers():
-	for child in $CanvasLayer/ui/resource_viewers.get_children():
+	for child in $CanvasLayer/ui/HBoxContainer/resource_viewers.get_children():
 		child.visible = false
+

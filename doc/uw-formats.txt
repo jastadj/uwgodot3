@@ -693,7 +693,8 @@ Table of Contents
    count:
 
       c = (((w3 << 4) | w4) << 4) | w5
-
+	
+	my notes: statement below is important for 5-bit, always GET the word at the word size, but only SHIFT BITS by 4 for the count (explains the overlapped bits)
    Note that even if the wordsize is 5, the words are only shifted by 4 bits,
    thus overlapping the words theoretically. In practice a count is at most 6
    words long, leading to the following possible patterns:

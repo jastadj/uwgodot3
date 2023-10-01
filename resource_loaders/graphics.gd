@@ -100,6 +100,7 @@ static func load_image_file(filename:String, palette:int):
 			var word_size = 4
 			if(image_type == System.IMAGE_FORMAT.FMT_5BIT_RLE): word_size = 5
 			if(word_size == 4):	data_size = ceil( float(data_size) / 2.0)
+			else: data_size = ceil( float(data_size*5)/8.0)
 			# create bitstream
 			var bit_stream = []
 			for b in range(0, data_size):
@@ -122,10 +123,10 @@ static func decode_rle_bitstream(word_size:int, bits:Array):
 	var atom_map = []
 	
 	# decode bits
-	while (bits.size() > 0):
+	while (bits.size() >= word_size):
 		
 		# get a count
-		var count = rle_get_count(bits)
+		var count = rle_get_count(bits, word_size)
 		
 		# repeat mode
 		if (repeat_mode):
@@ -135,9 +136,9 @@ static func decode_rle_bitstream(word_size:int, bits:Array):
 				continue
 			# if count == 2, perform multiple repeats
 			elif (count == 2):
-				var repeats = rle_get_count(bits)
+				var repeats = rle_get_count(bits, word_size)
 				while repeats > 0:
-					count = rle_get_count(bits)
+					count = rle_get_count(bits, word_size)
 					var value = rle_extract_word(bits, word_size)
 					while count > 0:
 						atom_map.append(value)
@@ -155,14 +156,19 @@ static func decode_rle_bitstream(word_size:int, bits:Array):
 	
 	return atom_map;
 
-static func rle_get_count(bits:Array):
-	var count = rle_extract_word(bits, 4)
-	# if count == 0, get two more nibbles
+static func rle_get_count(bits:Array, wordsize):
+	var count = rle_extract_word(bits, wordsize)
+	# if count == 0, get two more words
 	if (!count):
-		count = rle_extract_word(bits, 8)
-		# if count is still == 0, get three more nibbles
+		var count1 = rle_extract_word(bits, wordsize)
+		var count2 = rle_extract_word(bits, wordsize)
+		count = count1 << 4 | count2 # note: when shifting, shift by 4 bits regardless of wordcount
+		# if count is still == 0, get three more words
 		if(!count):
-			count = rle_extract_word(bits, 12)
+			var count3 = rle_extract_word(bits,wordsize)
+			var count4 = rle_extract_word(bits,wordsize)
+			var count5 = rle_extract_word(bits,wordsize)
+			count = (count3 << 8) | (count4 << 4) | count5
 	return count
 
 static func rle_extract_word(bits:Array, word_size:int):

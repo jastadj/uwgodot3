@@ -750,6 +750,8 @@ Table of Contents
    0001    Int8            number of anim slots (=nslot)
    0002    nslot*Int8      list of segment indices
 
+	my notes: not sure what the byte @ 0x0003 is for, ignore this when iterating through the indices.  indices with 0xff are null animations.  when iterating through the frame indices, its always 8 bytes (1 byte per frame).  the unused frames are 0xff (the anim frame sequence is padded).  only take 8 frame indices for valid segments (non 0xff segment indices).
+	
    After this, a list of segment follows which contains up to 8 frame indices
    for every segment.
 
@@ -760,6 +762,8 @@ Table of Contents
 
            Int8            number of aux palettes (=npals)
            npals*32        allaux palette indices in blocks of 32
+
+	my notes: the aux pals are duplicated for each critter page
 
    Next is a list of all frames and their offsets into the file:
 

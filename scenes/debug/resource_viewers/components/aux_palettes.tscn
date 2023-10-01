@@ -30,11 +30,14 @@ layout_mode = 2
 text = "image_index"
 
 [node name="lbl_cursor_info" type="Label" parent="aux_palettes_container"]
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 text = "cursor_info"
 
-[node name="auxpalette_grid" type="Node2D" parent="aux_palettes_container"]
-position = Vector2(1, 121)
+[node name="MarginContainer" type="MarginContainer" parent="aux_palettes_container"]
+layout_mode = 2
+
+[node name="auxpalette_grid" type="Node2D" parent="aux_palettes_container/MarginContainer"]
 
 [node name="square" type="Sprite2D" parent="."]
 visible = false

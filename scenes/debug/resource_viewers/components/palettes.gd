@@ -5,7 +5,8 @@ var grid_rect = Rect2()
 
 @onready var square_size = $square.texture.get_size()
 @onready var slider = $palettecontainer/slider_pal_index
-@onready var grid = $palettecontainer/palette_grid
+@onready var grid_margin = $palettecontainer/MarginContainer
+@onready var grid = $palettecontainer/MarginContainer/palette_grid
 @onready var index_label = $palettecontainer/lbl_pal_index
 @onready var cursor_info = $palettecontainer/lbl_cursor_info
 
@@ -17,10 +18,7 @@ func _ready():
 	
 	# generate palettes
 	for palette in System.cur_data["raws"]["palettes"]["main"]:
-		var color_list = []
-		for color in palette:
-			color_list.append(Color(color[0], color[1], color[2]))
-		palettes.append(color_list)
+		palettes.append(System.generate_palette(palette))
 	
 	slider.max_value = palettes.size()-1
 	
@@ -28,7 +26,7 @@ func _ready():
 
 func _input(event):
 	if (visible):
-		var mouse_pos = get_local_mouse_position()
+		var mouse_pos = grid.get_local_mouse_position()
 		if grid_rect.has_point(mouse_pos):
 			var pos = mouse_pos - grid_rect.position
 			var xpos = int(pos.x/16)%16
@@ -58,6 +56,7 @@ func draw_palette():
 		grid.add_child(newsquare)
 		color_counter += 1
 	grid_rect = Rect2(grid.position, square_size*16)
+	grid_margin.custom_minimum_size = grid_rect.size
 
 
 func _on_slider_pal_index_value_changed(value):
