@@ -1,4 +1,4 @@
-enum RESOURCE_TYPES{PALETTE, AUX_PALETTE, TEXTURE, GRAPHIC, BITMAP, FONT, NPC_ASSOC, NPC_ANIM}
+enum RESOURCE_TYPES{PALETTE, AUX_PALETTE, TEXTURE, GRAPHIC, BITMAP, FONT, NPC_ASSOC, NPC_ANIM, LEVELS}
 
 signal loading(loadstring, cur, total)
 
@@ -14,6 +14,7 @@ func load_manifest_file(uw_data:Dictionary, manifest_filename:String):
 	var graphics_loader = load("res://resource_loaders/graphics.gd")
 	var font_loader = load("res://resource_loaders/fonts.gd")
 	var npc_loader = load("res://resource_loaders/npc.gd")
+	var level_loader = load("res://resource_loaders/levels.gd")
 	
 	# Is uw_data a Dictionary?
 	if!(uw_data is Dictionary):
@@ -104,6 +105,8 @@ func load_manifest_file(uw_data:Dictionary, manifest_filename:String):
 				result = npc_loader.load_assoc_file(filepath)
 			RESOURCE_TYPES.NPC_ANIM:
 				result = npc_loader.load_npc_anim_file(filepath)
+			RESOURCE_TYPES.LEVELS:
+				result = level_loader.load_levels_file(filepath)
 			_:
 				printerr("Error loading manifest, unhandled resource type ", type)
 				tfile.close()

@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://chkejofaqumsx"]
+[gd_scene load_steps=6 format=3 uid="uid://chkejofaqumsx"]
 
 [ext_resource type="Script" path="res://scenes/debug/resource_viewer.gd" id="1_rsrhr"]
 [ext_resource type="PackedScene" uid="uid://dy65fs7jja3ck" path="res://scenes/debug/resource_viewers/font_viewer.tscn" id="3_8bhsx"]
 [ext_resource type="PackedScene" uid="uid://clevjqk5gqjs8" path="res://scenes/debug/resource_viewers/image_viewer.tscn" id="3_qsha3"]
 [ext_resource type="PackedScene" uid="uid://6f0bx1w7by37" path="res://scenes/debug/resource_viewers/npc_viewer.tscn" id="4_ap8he"]
+[ext_resource type="PackedScene" uid="uid://j4rfe4c53735" path="res://scenes/debug/resource_viewers/level_viewer.tscn" id="5_n6f1n"]
 
 [node name="resource_viewer" type="Node2D"]
 script = ExtResource("1_rsrhr")
@@ -44,6 +45,10 @@ text = "Fonts"
 layout_mode = 2
 text = "NPCs"
 
+[node name="button_levels" type="Button" parent="CanvasLayer/ui/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Levels"
+
 [node name="resource_viewers" type="MarginContainer" parent="CanvasLayer/ui/HBoxContainer"]
 layout_direction = 2
 layout_mode = 2
@@ -59,4 +64,8 @@ visible = false
 layout_mode = 2
 
 [node name="npc_viewer" parent="CanvasLayer/ui/HBoxContainer/resource_viewers" instance=ExtResource("4_ap8he")]
+layout_mode = 2
+
+[node name="level_viewer" parent="CanvasLayer/ui/HBoxContainer/resource_viewers" instance=ExtResource("5_n6f1n")]
+visible = false
 layout_mode = 2

@@ -9,12 +9,16 @@ extends Node2D
 @onready var npc_viewer = $CanvasLayer/ui/HBoxContainer/resource_viewers/npc_viewer
 @onready var button_npcs = $CanvasLayer/ui/HBoxContainer/VBoxContainer/button_npcs
 
+@onready var level_viewer = $CanvasLayer/ui/HBoxContainer/resource_viewers/level_viewer
+@onready var button_levels = $CanvasLayer/ui/HBoxContainer/VBoxContainer/button_levels
+
 var current_viewer = null
 
 func _ready():
 	button_images.connect("pressed", Callable(select_viewer).bind(image_viewer) )
 	button_fonts.connect("pressed", Callable(select_viewer).bind(font_viewer) )
 	button_npcs.connect("pressed", Callable(select_viewer).bind(npc_viewer))
+	button_levels.connect("pressed", Callable(select_viewer).bind(level_viewer))
 	
 	if(!System.cur_data["raws"].has("palettes")):
 		button_images.disabled = true
