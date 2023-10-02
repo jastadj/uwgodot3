@@ -2,6 +2,7 @@ extends Node
 
 const raws_file = "raws.json"
 enum IMAGE_FORMAT{FMT_8BIT = 0x04, FMT_4BIT = 0x0a, FMT_4BIT_RLE = 0x08, FMT_5BIT_RLE = 0x06}
+enum TILE_TYPES{SOLID, OPEN, DIAG_OPEN_SE, DIAG_OPEN_SW, DIAG_OPEN_NE, DIAG_OPEN_NW, SLOPE_UP_N, SLOPE_UP_S, SLOPE_UP_E, SLOPE_UP_W}
 
 # data types
 var image_type = load("res://system/data_types/image.gd").new()
