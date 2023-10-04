@@ -86,4 +86,5 @@ text = "Temp Main"
 [connection signal="pressed" from="CanvasLayer/ui/HBoxContainer/button_save" to="." method="_on_button_save_pressed"]
 [connection signal="pressed" from="CanvasLayer/ui/HBoxContainer/button_load" to="." method="_on_button_load_pressed"]
 [connection signal="pressed" from="CanvasLayer/ui/HBoxContainer/button_generate" to="." method="_on_button_generate_pressed"]
+[connection signal="pressed" from="CanvasLayer/ui/HBoxContainer/button_export" to="." method="_on_button_export_pressed"]
 [connection signal="pressed" from="CanvasLayer/ui/buttons_temp_main" to="." method="_on_buttons_temp_main_pressed"]

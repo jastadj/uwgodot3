@@ -63,6 +63,10 @@ func generate_resources():
 	var result = System.generate_resources_from_raws(System.uw1_data)
 	loadstring.text = str("Resources Generated:",result)
 
+func export_resources():
+	var result = System.export_resources(System.uw1_data)
+	loadstring.text = str("Resources Exported:", result)
+
 func _on_button_import_pressed():
 	if(DEBUG): import_uw1()
 	else: WorkerThreadPool.add_task(import_uw1)
@@ -85,5 +89,12 @@ func _on_button_generate_pressed():
 	if(DEBUG): generate_resources()
 	else: WorkerThreadPool.add_task(generate_resources)
 
+func _on_button_export_pressed():
+	load_container.visible = true
+	loadstring.text = str("Exporting Resources...");
+	if(DEBUG): export_resources()
+	else: WorkerThreadPool.add_task(export_resources)
+
 func _on_buttons_temp_main_pressed():
 	get_tree().change_scene_to_file("res://scenes/tempmain/tempmain.tscn")
+

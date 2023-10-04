@@ -80,8 +80,32 @@ func generate_resources_from_raws(data:Dictionary):
 			var auxpal = data["palettes"]["aux"][entry["aux_palette"]]
 			data["images"][imagekey].push_back(generate_image_from_image_entry(entry, pal, auxpal))
 	
-	
 	# done
+	return true
+	
+func export_resources(data:Dictionary):
+	var targetpath = str("user://data/",data["name"])
+	var imagespath = str(targetpath,"/images")	
+	
+	if(!DirAccess.dir_exists_absolute(targetpath)):
+		var exportdir = DirAccess.open("user://")
+		exportdir.make_dir_recursive(targetpath)
+	
+	# save images
+	if(!DirAccess.dir_exists_absolute(imagespath)):
+		var newdir = DirAccess.open("user://")
+		newdir.make_dir_recursive(imagespath)
+	for imagekey in data["images"].keys():
+		var imagepath = str(imagespath,"/",imagekey)
+		if(!DirAccess.dir_exists_absolute(imagepath)):
+			var newdir = DirAccess.open("user://")
+			newdir.make_dir_recursive(imagepath)
+		var imagedir = DirAccess.open(imagepath)
+		# save each image
+		for imageindex in range(0, data["images"][imagekey].size()):
+			var imagefilename = str(imagepath, "/",imageindex,".png")
+			data["images"][imagekey][imageindex].save_png(imagefilename)
+			
 	return true
 
 func new_image(type:int, palette_id:int, aux_pal_id:int = -1):
@@ -100,21 +124,26 @@ func new_font(space_width:int, height:int, max_width:int):
 
 func generate_image_from_image_entry(image_entry, palette, aux_palette):
 	var pixel_data = []
+	var alpha_color = palette[0].to_abgr32()
 	pixel_data.resize(image_entry["width"]*image_entry["height"]*4)
 	if(int(image_entry["type"]) == int(System.IMAGE_FORMAT.FMT_8BIT)):
 		for pixeli in range(0, image_entry["data"].size()):
 			var color = palette[image_entry["data"][pixeli]].to_abgr32()
+			var alpha = 0xff
+			if(color == alpha_color): alpha = 0x00
 			pixel_data[(pixeli*4)] = color & 0xff
 			pixel_data[(pixeli*4)+1] = (color & 0xff00) >> 8
 			pixel_data[(pixeli*4)+2] = (color & 0xff0000) >> 16
-			pixel_data[(pixeli*4)+3] = 0xff
+			pixel_data[(pixeli*4)+3] = alpha
 	else:
 		for pixeli in range(0, image_entry["data"].size()):
 			var color = aux_palette[image_entry["data"][pixeli]].to_abgr32()
+			var alpha = 0xff
+			if(color == alpha_color): alpha = 0x0
 			pixel_data[(pixeli*4)] = color & 0xff
 			pixel_data[(pixeli*4)+1] = (color & 0xff00) >> 8
 			pixel_data[(pixeli*4)+2] = (color & 0xff0000) >> 16
-			pixel_data[(pixeli*4)+3] = 0xff
+			pixel_data[(pixeli*4)+3] = alpha
 	return Image.create_from_data(image_entry["width"], image_entry["height"],false, Image.FORMAT_RGBA8, pixel_data)
 
 func generate_palette(palette_array:Array):
