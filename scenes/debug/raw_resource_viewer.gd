@@ -1,16 +1,19 @@
 extends Node2D
 
-@onready var image_viewer = $CanvasLayer/ui/HBoxContainer/resource_viewers/image_viewer
-@onready var button_images = $CanvasLayer/ui/HBoxContainer/VBoxContainer/button_images
+# buttons
+@onready var button_container = $CanvasLayer/ui/button_container
+@onready var button_images = button_container.get_node("button_images")
+@onready var button_fonts = button_container.get_node("button_fonts")
+@onready var button_npcs = button_container.get_node("button_npcs")
+@onready var button_levels = button_container.get_node("button_levels")
 
-@onready var font_viewer = $CanvasLayer/ui/HBoxContainer/resource_viewers/font_viewer
-@onready var button_fonts = $CanvasLayer/ui/HBoxContainer/VBoxContainer/button_fonts
+# viewers
+@onready var viewer_container = $CanvasLayer/ui/resource_viewers
+@onready var image_viewer = viewer_container.get_node("image_viewer")
+@onready var font_viewer = viewer_container.get_node("font_viewer")
+@onready var npc_viewer = viewer_container.get_node("npc_viewer")
+@onready var level_viewer = viewer_container.get_node("level_viewer")
 
-@onready var npc_viewer = $CanvasLayer/ui/HBoxContainer/resource_viewers/npc_viewer
-@onready var button_npcs = $CanvasLayer/ui/HBoxContainer/VBoxContainer/button_npcs
-
-@onready var level_viewer = $CanvasLayer/ui/HBoxContainer/resource_viewers/level_viewer
-@onready var button_levels = $CanvasLayer/ui/HBoxContainer/VBoxContainer/button_levels
 
 var current_viewer = null
 
@@ -38,6 +41,6 @@ func select_viewer(viewer):
 	current_viewer = viewer
 
 func hide_all_viewers():
-	for child in $CanvasLayer/ui/HBoxContainer/resource_viewers.get_children():
+	for child in viewer_container.get_children():
 		child.visible = false
 

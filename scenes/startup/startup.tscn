@@ -39,3 +39,51 @@ horizontal_alignment = 1
 custom_minimum_size = Vector2(300, 32)
 layout_mode = 2
 show_percentage = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ui"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -291.5
+offset_top = -20.0
+offset_right = 291.5
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="button_import" type="Button" parent="CanvasLayer/ui/HBoxContainer"]
+layout_mode = 2
+text = "Import UW1 Data"
+
+[node name="button_save" type="Button" parent="CanvasLayer/ui/HBoxContainer"]
+layout_mode = 2
+text = "Save Raws File"
+
+[node name="button_load" type="Button" parent="CanvasLayer/ui/HBoxContainer"]
+layout_mode = 2
+text = "Load Raws File"
+
+[node name="button_generate" type="Button" parent="CanvasLayer/ui/HBoxContainer"]
+layout_mode = 2
+text = "Generate Resources"
+
+[node name="button_export" type="Button" parent="CanvasLayer/ui/HBoxContainer"]
+layout_mode = 2
+text = "Export Resources"
+
+[node name="buttons_temp_main" type="Button" parent="CanvasLayer/ui"]
+layout_mode = 0
+offset_left = 501.0
+offset_top = 403.0
+offset_right = 607.0
+offset_bottom = 434.0
+text = "Temp Main"
+
+[connection signal="pressed" from="CanvasLayer/ui/HBoxContainer/button_import" to="." method="_on_button_import_pressed"]
+[connection signal="pressed" from="CanvasLayer/ui/HBoxContainer/button_save" to="." method="_on_button_save_pressed"]
+[connection signal="pressed" from="CanvasLayer/ui/HBoxContainer/button_load" to="." method="_on_button_load_pressed"]
+[connection signal="pressed" from="CanvasLayer/ui/HBoxContainer/button_generate" to="." method="_on_button_generate_pressed"]
+[connection signal="pressed" from="CanvasLayer/ui/buttons_temp_main" to="." method="_on_buttons_temp_main_pressed"]

@@ -10,7 +10,7 @@ var floor_textures = []
 @onready var tile_size = $square.texture.get_size()
 @onready var tiles = $tiles
 var tile_cursor
-var tile_shader = load("res://scenes/debug/resource_viewers/components/level_tile.gdshader")
+var tile_shader = load("res://scenes/debug/raw_resource_viewers/components/level_tile.gdshader")
 
 var rmb_clicked_at = Vector2(0,0)
 var tiles_clicked_position

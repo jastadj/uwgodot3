@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://bbgbxnyspbv4h"]
+[gd_scene load_steps=3 format=3]
 
-[ext_resource type="Script" path="res://scenes/debug/resource_viewers/components/palettes.gd" id="1_nrvrm"]
+[ext_resource type="Script" path="res://scenes/debug/raw_resource_viewers/components/palettes.gd" id="1_nrvrm"]
 [ext_resource type="Texture2D" uid="uid://cseyojwy6622n" path="res://art/square_16_16.png" id="2_x08vu"]
 
 [node name="palettes" type="Control"]

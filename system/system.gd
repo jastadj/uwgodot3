@@ -11,8 +11,78 @@ var font_type = load("res://system/data_types/font.gd").new()
 var uw1_data = {"name":"uw1","path":"./uw_data", "loaded":false, "raws":{} ,"palettes":{}, "images":{}, "fonts":{}}
 var cur_data = uw1_data
 
+signal loading_status
+
 func _ready():
 	pass
+
+func import_uw1_resources(callable:Callable):
+	
+	var manifest_loader = load("res://resource_loaders/manifest.gd").new()
+	var uw1_path = uw1_data["path"]
+	var manifest_file = "res://system/manifests/uw1_manifest.csv"
+	
+	manifest_loader.connect("importing", callable)
+	
+	print("Importing UW1 resources...")
+	cur_data = uw1_data
+	
+	# Load files from manifest
+	return manifest_loader.load_manifest_file(uw1_data, manifest_file)
+
+func save_raws(data:Dictionary):
+	var targetpath = str("user://data/",data["name"])
+	
+	if(!DirAccess.dir_exists_absolute(targetpath)):
+		var exportdir = DirAccess.open("user://")
+		exportdir.make_dir_recursive(targetpath)
+	
+	var file = FileAccess.open(str(targetpath,"/",raws_file), FileAccess.WRITE)
+	file.store_string(JSON.stringify(data["raws"]))
+	print("Saved raw data to ", targetpath, "/", raws_file)
+	return true
+
+func load_raws(data_name:String):
+	var targetpath = str("user://data/",data_name)
+	if(!DirAccess.dir_exists_absolute(targetpath)): return false
+	
+	var file = FileAccess.open(str(targetpath,"/",raws_file), FileAccess.READ)
+	if(file != null):
+		var file_content = file.get_as_text()
+		var json = JSON.new()
+		var error = json.parse(file_content)
+		if(error == OK):
+			System.cur_data["raws"] = json.data
+			print("Loaded raw data from ", targetpath,"")
+			return true
+	return false
+
+func generate_resources_from_raws(data:Dictionary):
+	
+	var raws = data["raws"]
+	
+	# generate the main palettes
+	data["palettes"] = {}
+	data["palettes"]["main"] = []
+	for rawpalette in data["raws"]["palettes"]["main"]:
+		data["palettes"]["main"].push_back(generate_palette(rawpalette))
+		
+	# generate aux palettes
+	data["palettes"]["aux"] = []
+	for rawauxpalette in data["raws"]["palettes"]["aux"]:
+		data["palettes"]["aux"].push_back(generate_aux_palette(rawauxpalette, data["palettes"]["main"][0]))
+	
+	# generate images
+	for imagekey in data["raws"]["images"].keys():
+		data["images"][imagekey] = []
+		for entry in data["raws"]["images"][imagekey]:
+			var pal = data["palettes"]["main"][entry["palette"]]
+			var auxpal = data["palettes"]["aux"][entry["aux_palette"]]
+			data["images"][imagekey].push_back(generate_image_from_image_entry(entry, pal, auxpal))
+	
+	
+	# done
+	return true
 
 func new_image(type:int, palette_id:int, aux_pal_id:int = -1):
 	var entry = image_type.data.duplicate()
@@ -27,20 +97,6 @@ func new_font(space_width:int, height:int, max_width:int):
 	entry["height"] = height
 	entry["max_width"] = max_width
 	return entry
-
-func load_uw1_resources(callable:Callable):
-	
-	var manifest_loader = load("res://resource_loaders/manifest.gd").new()
-	var uw1_path = uw1_data["path"]
-	var manifest_file = "res://system/manifests/uw1_manifest.csv"
-	
-	manifest_loader.connect("loading", callable)
-	
-	print("Loading UW1 resources...")
-	cur_data = uw1_data
-	
-	# Load files from manifest
-	return manifest_loader.load_manifest_file( uw1_data, manifest_file)
 
 func generate_image_from_image_entry(image_entry, palette, aux_palette):
 	var pixel_data = []
@@ -100,29 +156,5 @@ func print_data_keys(data:Dictionary, indent:int = 0):
 		print(indent_str, key)
 		if(data[key] is Dictionary): print_data_keys(data[key], indent+1)
 	
-func load_data(data_name:String):
-	var targetpath = str("user://export/",data_name)
-	if(!DirAccess.dir_exists_absolute(targetpath)): return false
-	
-	var file = FileAccess.open(str(targetpath,"/",raws_file), FileAccess.READ)
-	if(file != null):
-		var file_content = file.get_as_text()
-		var json = JSON.new()
-		var error = json.parse(file_content)
-		if(error == OK):
-			System.cur_data["raws"] = json.data
-			print("Loaded raw data from ", targetpath,"")
-			return true
-	return false
 
-func save_data(data:Dictionary):
-	var targetpath = str("user://export/",data["name"])
-	
-	if(!DirAccess.dir_exists_absolute(targetpath)):
-		var exportdir = DirAccess.open("user://")
-		exportdir.make_dir_recursive(targetpath)
-	
-	var file = FileAccess.open(str(targetpath,"/",raws_file), FileAccess.WRITE)
-	file.store_string(JSON.stringify(data["raws"]))
-	print("Saved raw data to ", targetpath, "/", raws_file)
 	

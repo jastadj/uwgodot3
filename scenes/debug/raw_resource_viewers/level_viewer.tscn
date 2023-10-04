@@ -1,11 +1,11 @@
 [gd_scene load_steps=5 format=3 uid="uid://j4rfe4c53735"]
 
-[ext_resource type="Script" path="res://scenes/debug/resource_viewers/level_viewer.gd" id="1_10uam"]
-[ext_resource type="Texture2D" uid="uid://cseyojwy6622n" path="res://art/square_16_16.png" id="2_3exv1"]
-[ext_resource type="Shader" path="res://scenes/debug/resource_viewers/components/level_tile.gdshader" id="3_fbpey"]
+[ext_resource type="Script" path="res://scenes/debug/raw_resource_viewers/level_viewer.gd" id="1_slyd1"]
+[ext_resource type="Texture2D" uid="uid://cseyojwy6622n" path="res://art/square_16_16.png" id="2_7h2xy"]
+[ext_resource type="Shader" path="res://scenes/debug/raw_resource_viewers/components/level_tile.gdshader" id="3_wscnw"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4pfwh"]
-shader = ExtResource("3_fbpey")
+shader = ExtResource("3_wscnw")
 shader_parameter/tile_type = null
 
 [node name="level_viewer" type="Control"]
@@ -15,7 +15,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_10uam")
+script = ExtResource("1_slyd1")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -50,7 +50,7 @@ horizontal_alignment = 2
 [node name="square" type="Sprite2D" parent="."]
 visible = false
 position = Vector2(53, 136)
-texture = ExtResource("2_3exv1")
+texture = ExtResource("2_7h2xy")
 centered = false
 
 [node name="tiles" type="Node2D" parent="."]

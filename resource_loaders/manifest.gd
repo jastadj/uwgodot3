@@ -1,6 +1,6 @@
 enum RESOURCE_TYPES{PALETTE, AUX_PALETTE, TEXTURE, GRAPHIC, BITMAP, FONT, NPC_ASSOC, NPC_ANIM, LEVELS}
 
-signal loading(loadstring, cur, total)
+signal importing(loadstring, cur, total)
 
 func load_manifest_file(uw_data:Dictionary, manifest_filename:String):
 	
@@ -61,7 +61,7 @@ func load_manifest_file(uw_data:Dictionary, manifest_filename:String):
 		var palette = entry[5]
 		var anim = int(entry[6])
 		
-		emit_signal("loading", [filepath, entryi, manifest_entries.size()])
+		emit_signal("importing", [filepath, entryi, manifest_entries.size()])
 		
 		# manifest palette entry
 		if (palette == ""): palette = 0
