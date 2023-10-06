@@ -98,3 +98,11 @@ func _on_button_export_pressed():
 func _on_buttons_temp_main_pressed():
 	get_tree().change_scene_to_file("res://scenes/tempmain/tempmain.tscn")
 
+func _on_button_clear_data_pressed():
+	System.delete_imported_data()
+
+
+func _on_button_load_raws_and_play_pressed():
+	load_raws_file()
+	generate_resources()
+	get_tree().change_scene_to_file("res://scenes/game/game.tscn")

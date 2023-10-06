@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://5knlvgvjn42w"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_bfwwb"]
+
+[sub_resource type="Environment" id="Environment_n2kex"]
+background_mode = 1
+
+[node name="Node3D" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_bfwwb")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.12907)
+current = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_n2kex")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.801999, 0.885485)

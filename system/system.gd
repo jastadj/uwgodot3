@@ -108,6 +108,9 @@ func export_resources(data:Dictionary):
 			
 	return true
 
+func delete_imported_data():
+	OS.move_to_trash(ProjectSettings.globalize_path("user://data"))
+
 func new_image(type:int, palette_id:int, aux_pal_id:int = -1):
 	var entry = image_type.data.duplicate()
 	entry["type"] = type

@@ -75,12 +75,50 @@ layout_mode = 2
 text = "Export Resources"
 
 [node name="buttons_temp_main" type="Button" parent="CanvasLayer/ui"]
-layout_mode = 0
-offset_left = 501.0
-offset_top = 403.0
-offset_right = 607.0
-offset_bottom = 434.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -53.0
+offset_top = 80.5
+offset_right = 53.0
+offset_bottom = 111.5
+grow_horizontal = 2
+grow_vertical = 2
 text = "Temp Main"
+
+[node name="button_clear_data" type="Button" parent="CanvasLayer/ui"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -88.0
+offset_top = -119.5
+offset_right = 88.0
+offset_bottom = -88.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "Delete Imported Data"
+
+[node name="button_load_raws_and_play" type="Button" parent="CanvasLayer/ui"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -80.5
+offset_top = -219.5
+offset_right = 80.5
+offset_bottom = -188.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Load Raws and Play"
 
 [connection signal="pressed" from="CanvasLayer/ui/HBoxContainer/button_import" to="." method="_on_button_import_pressed"]
 [connection signal="pressed" from="CanvasLayer/ui/HBoxContainer/button_save" to="." method="_on_button_save_pressed"]
@@ -88,3 +126,5 @@ text = "Temp Main"
 [connection signal="pressed" from="CanvasLayer/ui/HBoxContainer/button_generate" to="." method="_on_button_generate_pressed"]
 [connection signal="pressed" from="CanvasLayer/ui/HBoxContainer/button_export" to="." method="_on_button_export_pressed"]
 [connection signal="pressed" from="CanvasLayer/ui/buttons_temp_main" to="." method="_on_buttons_temp_main_pressed"]
+[connection signal="pressed" from="CanvasLayer/ui/button_clear_data" to="." method="_on_button_clear_data_pressed"]
+[connection signal="pressed" from="CanvasLayer/ui/button_load_raws_and_play" to="." method="_on_button_load_raws_and_play_pressed"]
