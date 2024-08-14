@@ -2,8 +2,7 @@ shader_type spatial;
 render_mode specular_schlick_ggx;
 //render_mode unshaded;
 
-
-uniform sampler2D img;
+uniform sampler2D img : filter_nearest;
 // 4 color palette rotator
 uniform float speed_ms = 250.0;
 uniform vec2 scale = vec2(1.0,1.0);

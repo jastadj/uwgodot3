@@ -14,5 +14,6 @@ script = ExtResource("1_d0uj5")
 transform = Transform3D(1, 0, 0, 0, 0.814794, 0.579751, 0, -0.579751, 0.814794, 0, 2.22165, 2.36883)
 current = true
 
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.43001, 0)
+[node name="OmniLight3D" type="OmniLight3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 0.814794, -0.579751, 0, 0.579751, 0.814794, 0, 0, 0)
+light_energy = 0.5

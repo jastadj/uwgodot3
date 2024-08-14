@@ -1,19 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://te5170mgx4uc"]
+[gd_scene load_steps=4 format=3 uid="uid://te5170mgx4uc"]
 
 [ext_resource type="Shader" path="res://shaders/spatialshader_palette_rotation_uw1.gdshader" id="1_dh1u4"]
-
-[sub_resource type="ArrayMesh" id="ArrayMesh_sibyo"]
-_surfaces = [{
-"aabb": AABB(-1, 0, -1, 2, 1e-05, 2.00001),
-"format": 34359742465,
-"index_count": 6,
-"index_data": PackedByteArray(0, 0, 3, 0, 1, 0, 0, 0, 2, 0, 3, 0),
-"primitive": 3,
-"uv_scale": Vector4(0, 0, 0, 0),
-"vertex_count": 4,
-"vertex_data": PackedByteArray(0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 128, 191, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 191)
-}]
-blend_shape_mode = 0
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_dyysf"]
 resource_name = "floor_Plane"
@@ -29,7 +16,6 @@ _surfaces = [{
 "vertex_data": PackedByteArray(0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 128, 191, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 191, 255, 127, 255, 255, 255, 255, 255, 191, 255, 127, 255, 255, 255, 255, 255, 191, 255, 127, 255, 255, 255, 255, 255, 191, 255, 127, 255, 255, 255, 255, 255, 191)
 }]
 blend_shape_mode = 0
-shadow_mesh = SubResource("ArrayMesh_sibyo")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wxxmo"]
 render_priority = 0
