@@ -7,3 +7,7 @@ func _ready():
 	
 func _on_raw_resource_viewer_pressed():
 	get_tree().change_scene_to_file("res://scenes/debug/raw_resource_viewer.tscn")
+
+
+func _on_button_back_pressed():
+	get_tree().change_scene_to_file("res://scenes/startup/startup.tscn")

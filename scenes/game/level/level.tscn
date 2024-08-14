@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://0ulso6gj5c2a"]
+
+[ext_resource type="Script" path="res://scenes/game/level/level.gd" id="1_d0uj5"]
+[ext_resource type="PackedScene" uid="uid://te5170mgx4uc" path="res://models/floor.tscn" id="2_p1hyg"]
+
+[node name="level" type="Node3D"]
+script = ExtResource("1_d0uj5")
+
+[node name="tiles" type="Node3D" parent="."]
+
+[node name="floor" parent="tiles" instance=ExtResource("2_p1hyg")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.814794, 0.579751, 0, -0.579751, 0.814794, 0, 2.22165, 2.36883)
+current = true
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.43001, 0)

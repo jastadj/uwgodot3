@@ -1,0 +1,69 @@
+[gd_scene load_steps=5 format=3 uid="uid://te5170mgx4uc"]
+
+[ext_resource type="Shader" path="res://shaders/spatialshader_palette_rotation_uw1.gdshader" id="1_dh1u4"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_sibyo"]
+_surfaces = [{
+"aabb": AABB(-1, 0, -1, 2, 1e-05, 2.00001),
+"format": 34359742465,
+"index_count": 6,
+"index_data": PackedByteArray(0, 0, 3, 0, 1, 0, 0, 0, 2, 0, 3, 0),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray(0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 128, 191, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 191)
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_dyysf"]
+resource_name = "floor_Plane"
+_surfaces = [{
+"aabb": AABB(-1, 0, -1, 2, 1e-05, 2.00001),
+"attribute_data": PackedByteArray(0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0),
+"format": 34359742487,
+"index_count": 6,
+"index_data": PackedByteArray(0, 0, 3, 0, 1, 0, 0, 0, 2, 0, 3, 0),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray(0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 128, 191, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 191, 255, 127, 255, 255, 255, 255, 255, 191, 255, 127, 255, 255, 255, 255, 255, 191, 255, 127, 255, 255, 255, 255, 255, 191, 255, 127, 255, 255, 255, 255, 255, 191)
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_sibyo")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wxxmo"]
+render_priority = 0
+shader = ExtResource("1_dh1u4")
+shader_parameter/speed_ms = 250.0
+shader_parameter/scale = Vector2(1, 1)
+shader_parameter/color0 = null
+shader_parameter/color1 = null
+shader_parameter/color2 = null
+shader_parameter/color3 = null
+shader_parameter/color4 = null
+shader_parameter/color5 = null
+shader_parameter/color6 = null
+shader_parameter/color7 = null
+shader_parameter/color8 = null
+shader_parameter/color9 = null
+shader_parameter/color10 = null
+shader_parameter/color11 = null
+shader_parameter/color12 = null
+shader_parameter/color13 = null
+shader_parameter/color14 = null
+shader_parameter/color15 = null
+shader_parameter/color16 = null
+shader_parameter/color17 = null
+shader_parameter/color18 = null
+shader_parameter/color19 = null
+shader_parameter/color20 = null
+shader_parameter/color21 = null
+shader_parameter/color22 = null
+shader_parameter/color23 = null
+
+[node name="floor" type="Node3D"]
+
+[node name="Plane" type="MeshInstance3D" parent="."]
+mesh = SubResource("ArrayMesh_dyysf")
+skeleton = NodePath("")
+surface_material_override/0 = SubResource("ShaderMaterial_wxxmo")

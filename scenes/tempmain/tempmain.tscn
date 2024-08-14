@@ -29,3 +29,9 @@ layout_mode = 2
 [node name="button_raw_resource_viewer" type="Button" parent="CanvasLayer/ui/CenterContainer/VBoxContainer"]
 layout_mode = 2
 text = "Raw Resource Viewer"
+
+[node name="button_back" type="Button" parent="CanvasLayer/ui/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Back"
+
+[connection signal="pressed" from="CanvasLayer/ui/CenterContainer/VBoxContainer/button_back" to="." method="_on_button_back_pressed"]

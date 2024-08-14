@@ -11,7 +11,21 @@ var update_prefix = ""
 
 func _ready():
 	load_container.visible = false
+	_update_buttons();
+
+func _update_buttons():
 	
+	var has_raws:bool = !System.cur_data["raws"].is_empty()
+	var has_resources:bool = !System.cur_data["palettes"].is_empty() or !System.cur_data["images"].is_empty() or !System.cur_data["fonts"].is_empty()
+	
+	# requires raws
+	$CanvasLayer/ui/HBoxContainer/button_generate.disabled = !has_raws
+	$CanvasLayer/ui/HBoxContainer/button_save.disabled = !has_raws
+	$CanvasLayer/ui/buttons_tools.disabled = !has_raws
+	
+	# requires resources
+	$CanvasLayer/ui/HBoxContainer/button_export.disabled = !has_resources
+
 func load_resources():
 	
 	$CanvasLayer/ui/loadcontainer.visible = true
@@ -50,6 +64,7 @@ func import_uw1():
 	result = System.import_uw1_resources(Callable(update_progress))
 	progressbar.visible = false
 	loadstring.text = str("UW1 Import:", result)
+	_update_buttons()
 
 func save_raws_file():
 	var result = System.save_raws(System.uw1_data)
@@ -57,11 +72,13 @@ func save_raws_file():
 
 func load_raws_file():
 	var result = System.load_raws("uw1")
-	loadstring.text = str("Raws File Loaded:",result)	
+	loadstring.text = str("Raws File Loaded:",result)
+	_update_buttons()
 
 func generate_resources():
 	var result = System.generate_resources_from_raws(System.uw1_data)
 	loadstring.text = str("Resources Generated:",result)
+	_update_buttons()
 
 func export_resources():
 	var result = System.export_resources(System.uw1_data)
@@ -95,14 +112,17 @@ func _on_button_export_pressed():
 	if(DEBUG): export_resources()
 	else: WorkerThreadPool.add_task(export_resources)
 
-func _on_buttons_temp_main_pressed():
+func _on_buttons_tools_pressed():
 	get_tree().change_scene_to_file("res://scenes/tempmain/tempmain.tscn")
 
 func _on_button_clear_data_pressed():
 	System.delete_imported_data()
-
-
+	
 func _on_button_load_raws_and_play_pressed():
 	load_raws_file()
 	generate_resources()
 	get_tree().change_scene_to_file("res://scenes/game/game.tscn")
+
+
+func _on_button_quit_pressed():
+	get_tree().quit()

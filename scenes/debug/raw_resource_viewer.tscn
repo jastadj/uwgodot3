@@ -48,6 +48,10 @@ text = "NPCs"
 layout_mode = 2
 text = "Levels"
 
+[node name="button_back" type="Button" parent="CanvasLayer/ui/button_container"]
+layout_mode = 2
+text = "Back"
+
 [node name="resource_viewers" type="MarginContainer" parent="CanvasLayer/ui"]
 layout_mode = 1
 anchors_preset = 15
@@ -72,3 +76,5 @@ layout_mode = 2
 [node name="level_viewer" parent="CanvasLayer/ui/resource_viewers" instance=ExtResource("5_n6f1n")]
 visible = false
 layout_mode = 2
+
+[connection signal="pressed" from="CanvasLayer/ui/button_container/button_back" to="." method="_on_button_back_pressed"]

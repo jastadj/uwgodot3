@@ -43,4 +43,6 @@ func select_viewer(viewer):
 func hide_all_viewers():
 	for child in viewer_container.get_children():
 		child.visible = false
-
+		
+func _on_button_back_pressed():
+	get_tree().change_scene_to_file("res://scenes/tempmain/tempmain.tscn")
