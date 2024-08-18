@@ -1,7 +1,14 @@
 [gd_scene load_steps=2 format=3 uid="uid://ci30vx52kmmox"]
 
-[ext_resource type="PackedScene" uid="uid://te5170mgx4uc" path="res://models/floor.tscn" id="1_7asc4"]
+[ext_resource type="Script" path="res://level_cell/level_cell.gd" id="1_x081f"]
 
 [node name="level_cell" type="Node3D"]
+script = ExtResource("1_x081f")
 
-[node name="floor" parent="." instance=ExtResource("1_7asc4")]
+[node name="meshes" type="Node3D" parent="."]
+
+[node name="floor" type="Node3D" parent="meshes"]
+
+[node name="walls" type="Node3D" parent="meshes"]
+
+[node name="ceiling" type="Node3D" parent="meshes"]

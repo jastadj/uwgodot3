@@ -1,0 +1,128 @@
+[gd_scene load_steps=4 format=3 uid="uid://bbpn3vmuh0ehg"]
+
+[ext_resource type="Script" path="res://scenes/debug/level_cell_tester/level_cell_tester.gd" id="1_x8w0r"]
+[ext_resource type="Script" path="res://tools/flylook.gd" id="2_v5vq0"]
+[ext_resource type="PackedScene" uid="uid://ci30vx52kmmox" path="res://level_cell/level_cell.tscn" id="2_xqahd"]
+
+[node name="level_cell_tester" type="Node3D"]
+script = ExtResource("1_x8w0r")
+
+[node name="level_cell" parent="." instance=ExtResource("2_xqahd")]
+
+[node name="level" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.138102, 0, -0.990418, 0, 1, 0, 0.990418, 0, 0.138102, -2.75713, 9.94036, 7.47596)
+script = ExtResource("2_v5vq0")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ui" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ui"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 45.0
+grow_vertical = 0
+
+[node name="button_back" type="Button" parent="CanvasLayer/ui/VBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+text = "Back"
+
+[node name="HFlowContainer" type="HFlowContainer" parent="CanvasLayer/ui"]
+layout_mode = 0
+offset_right = 188.0
+offset_bottom = 74.0
+
+[node name="Label" type="Label" parent="CanvasLayer/ui/HFlowContainer"]
+layout_mode = 2
+text = "Type"
+
+[node name="OptionButtonTypes" type="OptionButton" parent="CanvasLayer/ui/HFlowContainer"]
+layout_mode = 2
+focus_mode = 0
+item_count = 10
+popup/item_0/text = "Solid"
+popup/item_1/text = "Open"
+popup/item_1/id = 1
+popup/item_2/text = "Diagonal SW"
+popup/item_2/id = 2
+popup/item_3/text = "Diagonal SE"
+popup/item_3/id = 3
+popup/item_4/text = "Diagonal NW"
+popup/item_4/id = 4
+popup/item_5/text = "Diagonal NE"
+popup/item_5/id = 5
+popup/item_6/text = "Slope N"
+popup/item_6/id = 6
+popup/item_7/text = "Slope S"
+popup/item_7/id = 7
+popup/item_8/text = "Slope E"
+popup/item_8/id = 8
+popup/item_9/text = "Slope W"
+popup/item_9/id = 9
+
+[node name="Label2" type="Label" parent="CanvasLayer/ui/HFlowContainer"]
+layout_mode = 2
+text = "Floor Texture:"
+
+[node name="TextureButtonFloor" type="TextureButton" parent="CanvasLayer/ui/HFlowContainer"]
+layout_mode = 2
+focus_mode = 0
+
+[node name="Label3" type="Label" parent="CanvasLayer/ui/HFlowContainer"]
+layout_mode = 2
+text = "Wall Texture:"
+
+[node name="TextureButtonWall" type="TextureButton" parent="CanvasLayer/ui/HFlowContainer"]
+layout_mode = 2
+focus_mode = 0
+
+[node name="Label4" type="Label" parent="CanvasLayer/ui/HFlowContainer"]
+layout_mode = 2
+text = "Height:"
+
+[node name="HSliderHeight" type="HSlider" parent="CanvasLayer/ui/HFlowContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+max_value = 120.0
+
+[node name="floor_texture_list" type="ItemList" parent="CanvasLayer/ui"]
+visible = false
+layout_mode = 0
+offset_left = 257.0
+offset_top = 175.0
+offset_right = 563.0
+offset_bottom = 418.0
+allow_reselect = true
+max_columns = 8
+
+[node name="wall_texture_list" type="ItemList" parent="CanvasLayer/ui"]
+visible = false
+layout_mode = 0
+offset_left = 257.0
+offset_top = 175.0
+offset_right = 563.0
+offset_bottom = 418.0
+allow_reselect = true
+max_columns = 8
+
+[connection signal="pressed" from="CanvasLayer/ui/VBoxContainer/button_back" to="." method="_on_button_back_pressed"]
+[connection signal="item_selected" from="CanvasLayer/ui/HFlowContainer/OptionButtonTypes" to="." method="_on_option_button_types_item_selected"]
+[connection signal="button_up" from="CanvasLayer/ui/HFlowContainer/TextureButtonFloor" to="." method="_on_texture_button_floor_button_up"]
+[connection signal="button_up" from="CanvasLayer/ui/HFlowContainer/TextureButtonWall" to="." method="_on_texture_button_wall_button_up"]
+[connection signal="value_changed" from="CanvasLayer/ui/HFlowContainer/HSliderHeight" to="." method="_on_h_slider_height_value_changed"]
+[connection signal="item_selected" from="CanvasLayer/ui/floor_texture_list" to="." method="_on_floor_texture_list_item_selected"]
+[connection signal="item_selected" from="CanvasLayer/ui/wall_texture_list" to="." method="_on_wall_texture_list_item_selected"]
