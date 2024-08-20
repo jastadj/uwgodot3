@@ -33,6 +33,9 @@ func _ready():
 	# load level
 	level.load_level(System.cur_data["raws"]["levels"][0])
 
+func _exit_tree():
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
 func _input(event):
 	
 	if event is InputEventKey:
@@ -48,6 +51,8 @@ func _input(event):
 					viewport_container.position = render_window_rect.position
 					subviewport.size = Vector2i(render_window_rect.size)
 					ui.visible = true
+		elif event.keycode == KEY_ESCAPE:
+			get_tree().change_scene_to_file("res://scenes/startup/startup.tscn")
 	
 func update_window():
 	get_viewport().get_window().size = Vector2(WINDOW_WIDTH*window_scale, WINDOW_HEIGHT*window_scale)

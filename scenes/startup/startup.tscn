@@ -121,11 +121,18 @@ grow_vertical = 2
 text = "Load Raws, Generate Resources,  and Play"
 
 [node name="button_quit" type="Button" parent="CanvasLayer/ui"]
-layout_mode = 0
-offset_left = 523.0
-offset_top = 475.0
-offset_right = 633.0
-offset_bottom = 506.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -55.0
+offset_top = 153.5
+offset_right = 55.0
+offset_bottom = 184.5
+grow_horizontal = 2
+grow_vertical = 2
 text = "Quit"
 
 [connection signal="pressed" from="CanvasLayer/ui/HBoxContainer/button_import" to="." method="_on_button_import_pressed"]

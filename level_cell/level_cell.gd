@@ -234,6 +234,7 @@ func create_wall_meshes() -> Array:
 		var neighbor_cell = null
 		var neighbor_tr_height:float = 0.0
 		var neighbor_tl_height:float = 0.0
+		var wall_to_ceil:bool = false
 		
 		# select neighbor cell and rotation
 		if i == 0:
@@ -258,9 +259,15 @@ func create_wall_meshes() -> Array:
 		
 		# north wall
 		if i == 0:
+			
+			# diagonal wall check
 			if type == System.TILE_TYPES.DIAG_OPEN_SE or type == System.TILE_TYPES.DIAG_OPEN_SW:
 				continue
-			elif type == System.TILE_TYPES.SLOPE_UP_N:
+			elif neighbor_cell.type == System.TILE_TYPES.DIAG_OPEN_NE or neighbor_cell.type == System.TILE_TYPES.DIAG_OPEN_NW:
+				wall_to_ceil = true
+			
+			# slope check
+			if type == System.TILE_TYPES.SLOPE_UP_N:
 				if height + 8 >= neighbor_cell.height:
 					continue
 				br_height = 0.25
@@ -272,9 +279,15 @@ func create_wall_meshes() -> Array:
 			
 		# east wall
 		elif i == 1:
+			
+			# diagonal wall check
 			if type == System.TILE_TYPES.DIAG_OPEN_SW or type == System.TILE_TYPES.DIAG_OPEN_NW:
 				continue
-			elif type == System.TILE_TYPES.SLOPE_UP_E:
+			elif neighbor_cell.type == System.TILE_TYPES.DIAG_OPEN_SE or neighbor_cell.type == System.TILE_TYPES.DIAG_OPEN_NE:
+				wall_to_ceil = true
+			
+			# slope check
+			if type == System.TILE_TYPES.SLOPE_UP_E:
 				if height + 8 >= neighbor_cell.height:
 					continue
 				br_height = 0.25
@@ -286,9 +299,15 @@ func create_wall_meshes() -> Array:
 				
 		# south wall
 		elif i == 2:
+			
+			# diagonal wall check
 			if type == System.TILE_TYPES.DIAG_OPEN_NE or type == System.TILE_TYPES.DIAG_OPEN_NW:
 				continue
-			elif type == System.TILE_TYPES.SLOPE_UP_S:
+			elif neighbor_cell.type == System.TILE_TYPES.DIAG_OPEN_SE or neighbor_cell.type == System.TILE_TYPES.DIAG_OPEN_SW:
+				wall_to_ceil = true
+			
+			# slope check
+			if type == System.TILE_TYPES.SLOPE_UP_S:
 				if height + 8 >= neighbor_cell.height:
 					continue
 				br_height = 0.25
@@ -300,9 +319,15 @@ func create_wall_meshes() -> Array:
 
 		# west wall
 		elif i == 3:
+			
+			# diagonal wall check
 			if type == System.TILE_TYPES.DIAG_OPEN_SE or type == System.TILE_TYPES.DIAG_OPEN_NE:
 				continue
-			elif type == System.TILE_TYPES.SLOPE_UP_W:
+			elif neighbor_cell.type == System.TILE_TYPES.DIAG_OPEN_SW or neighbor_cell.type == System.TILE_TYPES.DIAG_OPEN_NW:
+				wall_to_ceil = true
+			
+			# slope check
+			if type == System.TILE_TYPES.SLOPE_UP_W:
 				if height + 8 >= neighbor_cell.height:
 					continue
 				br_height = 0.25
@@ -316,7 +341,12 @@ func create_wall_meshes() -> Array:
 		###########
 		# TOP EDGES
 		
+		# if neighbor is solid, wall goes to ceiling
 		if neighbor_cell.type == System.TILE_TYPES.SOLID:
+			wall_to_ceil = true
+		
+		# if wall goes to ceiling, set the top edge to the ceiling
+		if wall_to_ceil:
 			# if neighbor is solid, bring the top edges to the max height of the map
 			tl_height = float( (System.MAX_HEIGHT - height) / 8) / 4.0
 			tr_height = tl_height

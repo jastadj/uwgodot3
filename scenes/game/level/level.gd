@@ -24,10 +24,10 @@ func load_level(level:Dictionary):
 		
 	clear_level()
 	
-	print(level.keys())
-	print(level["textures"].keys())
-	print(level["textures"]["ceiling"])
-	print(level["tiles"][2])
+	#print(level.keys())
+	#print(level["textures"].keys())
+	#print(level["textures"]["ceiling"])
+	#print(level["tiles"][2])
 	
 	# ceiling texture index
 	var ceiling_texture_index = level["textures"]["ceiling"]
@@ -43,7 +43,7 @@ func load_level(level:Dictionary):
 			
 			new_nodex.name = str("x_",x)
 			new_nodey.add_child(new_nodex)
-			new_nodex.position = Vector3(x*System.TILE_SIZE, 0, y*System.TILE_SIZE)
+			new_nodex.position = Vector3(x*System.TILE_SIZE, 0, (y-level["length"])*System.TILE_SIZE)
 			
 			# get references to adjacent cells
 			if(x != 0):
