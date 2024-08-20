@@ -1,4 +1,4 @@
-enum RESOURCE_TYPES{PALETTE, AUX_PALETTE, TEXTURE, GRAPHIC, BITMAP, FONT, NPC_ASSOC, NPC_ANIM, LEVELS}
+enum RESOURCE_TYPES{PALETTE, AUX_PALETTE, TEXTURE, GRAPHIC, BITMAP, FONT, NPC_ASSOC, NPC_ANIM, LEVELS, STRINGS}
 
 signal importing(loadstring, cur, total)
 
@@ -8,6 +8,7 @@ func load_manifest_file(uw_data:Dictionary, manifest_filename:String):
 	var MANIFEST_HEADER = PackedStringArray(["Directory","Filename","Type","Base","Name", "Palette","Anim"])
 	var manifest_entries = []
 	var line_counter = 0
+	var total_lines = 0
 	
 	# Resource Loaders
 	var palette_loader = load( "res://resource_loaders/palettes.gd")
@@ -15,6 +16,7 @@ func load_manifest_file(uw_data:Dictionary, manifest_filename:String):
 	var font_loader = load("res://resource_loaders/fonts.gd")
 	var npc_loader = load("res://resource_loaders/npc.gd")
 	var level_loader = load("res://resource_loaders/levels.gd")
+	var strings_loader = load("res://resource_loaders/strings.gd")
 	
 	# Is uw_data a Dictionary?
 	if!(uw_data is Dictionary):
@@ -26,6 +28,15 @@ func load_manifest_file(uw_data:Dictionary, manifest_filename:String):
 	if(tfile == null):
 		printerr("Error opening manifest file:" + manifest_filename)
 		return false
+	
+	# Get total lines
+	while(!tfile.eof_reached()):
+		if(!tfile.get_line().is_empty()):
+			total_lines += 1
+	tfile.seek(0)
+	# subtract 1 from total lines (header)
+	if total_lines > 0:
+		total_lines -= 1
 	
 	# Read in manifest header
 	var header = tfile.get_csv_line()
@@ -107,6 +118,8 @@ func load_manifest_file(uw_data:Dictionary, manifest_filename:String):
 				result = npc_loader.load_npc_anim_file(filepath)
 			RESOURCE_TYPES.LEVELS:
 				result = level_loader.load_levels_file(filepath)
+			RESOURCE_TYPES.STRINGS:
+				result = strings_loader.load_strings_file(filepath)
 			_:
 				printerr("Error loading manifest, unhandled resource type ", type)
 				tfile.close()
@@ -140,7 +153,7 @@ func load_manifest_file(uw_data:Dictionary, manifest_filename:String):
 				tfile.close()
 				return false
 		
-		print("Loaded ", result.size(), " entries of ", type," to [",base,"][", keyname,"]")
+		print(line_counter,"/", total_lines, " : Loaded ", result.size(), " entries of ", type," to [",base,"][", keyname,"]")
 		line_counter += 1
 	
 	tfile.close()
