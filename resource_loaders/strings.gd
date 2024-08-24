@@ -56,7 +56,7 @@ static func load_strings_file(filename:String):
 	for block in blocks:
 		
 		# create dictionary entry for block id to store array of strings
-		decoded_blocks[block["i"]] = []
+		decoded_blocks[str(block["i"])] = []
 		
 		# decode each string entry in the block
 		for string_offset in block["so"]:
@@ -110,7 +110,7 @@ static func load_strings_file(filename:String):
 					byte = tfile.get_8()
 			
 			# add the word to the decoded block's string list
-			decoded_blocks[block["i"]].append(word)
+			decoded_blocks[str(block["i"])].append(word)
 			total_string_count += 1
 	
 	print(total_string_count, " strings loaded to ", decoded_blocks.keys().size(), " blocks.")
