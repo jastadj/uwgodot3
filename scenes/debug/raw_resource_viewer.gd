@@ -6,6 +6,7 @@ extends Node2D
 @onready var button_fonts = button_container.get_node("button_fonts")
 @onready var button_npcs = button_container.get_node("button_npcs")
 @onready var button_levels = button_container.get_node("button_levels")
+@onready var button_strings = button_container.get_node("button_strings")
 
 # viewers
 @onready var viewer_container = $CanvasLayer/ui/resource_viewers
@@ -13,6 +14,7 @@ extends Node2D
 @onready var font_viewer = viewer_container.get_node("font_viewer")
 @onready var npc_viewer = viewer_container.get_node("npc_viewer")
 @onready var level_viewer = viewer_container.get_node("level_viewer")
+@onready var strings_viewer = viewer_container.get_node("strings_viewer")
 
 
 var current_viewer = null
@@ -22,6 +24,7 @@ func _ready():
 	button_fonts.connect("pressed", Callable(select_viewer).bind(font_viewer) )
 	button_npcs.connect("pressed", Callable(select_viewer).bind(npc_viewer))
 	button_levels.connect("pressed", Callable(select_viewer).bind(level_viewer))
+	button_strings.connect("pressed", Callable(select_viewer).bind(strings_viewer))
 	
 	if(!System.cur_data["raws"].has("palettes")):
 		button_images.disabled = true

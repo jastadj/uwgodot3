@@ -38,11 +38,15 @@ func _process(_delta):
 	
 	var tilescale = tiles.scale
 	var mouse_pos = (get_global_mouse_position() - tiles.position)
+	
 	mouse_pos = Vector2( int((mouse_pos.x)/(tile_size.x*tilescale.x)), int(mouse_pos.y/(tile_size.y*tilescale.y)))
 	tile_cursor.position = (mouse_pos*tile_size*tilescale) + tiles.position
 	tile_cursor.scale = tiles.scale
 
 func _input(event):
+	
+	if !visible:
+		return
 	
 	if event is InputEventMouseButton:
 		if event.pressed:

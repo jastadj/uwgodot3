@@ -82,12 +82,15 @@ func generate_resources_from_raws(data:Dictionary):
 			var auxpal = data["palettes"]["aux"][entry["aux_palette"]]
 			data["images"][imagekey].push_back(generate_image_from_image_entry(entry, pal, auxpal))
 	
+	# generate strings (dictionary copy)
+	data["strings"] = data["raws"]["strings"]
+	
 	# done
 	return true
 	
 func export_resources(data:Dictionary):
 	var targetpath = str("user://data/",data["name"])
-	var imagespath = str(targetpath,"/images")	
+	var imagespath = str(targetpath,"/images")
 	
 	if(!DirAccess.dir_exists_absolute(targetpath)):
 		var exportdir = DirAccess.open("user://")
@@ -107,6 +110,31 @@ func export_resources(data:Dictionary):
 		for imageindex in range(0, data["images"][imagekey].size()):
 			var imagefilename = str(imagepath, "/",imageindex,".png")
 			data["images"][imagekey][imageindex].save_png(imagefilename)
+			
+	# generate strings csv
+	var strings_file = FileAccess.open(str(targetpath,"/strings.csv"), FileAccess.WRITE)
+	var string_languages = data["strings"].keys()
+	var string_header = ["block"] + string_languages
+	strings_file.store_csv_line(string_header)
+	
+	# build the csv lines for each string block
+	for block_id in data["strings"]["english"].keys():
+		# for each string in the block
+		for block_str in data["strings"]["english"][block_id]:
+			
+			print(block_str)
+			
+			# store csv line: "block, string (english), string ..."
+			var string_line = [str(block_id)]
+			# add to string line
+			string_line.append(block_str)
+			
+			# to do - add support for other languages
+		
+			# write csv line
+			strings_file.store_csv_line(string_line)
+
+	strings_file.close()
 			
 	return true
 

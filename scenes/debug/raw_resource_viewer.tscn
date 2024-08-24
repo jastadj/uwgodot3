@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://dtaiknc82owfs"]
+[gd_scene load_steps=7 format=3 uid="uid://dtaiknc82owfs"]
 
 [ext_resource type="Script" path="res://scenes/debug/raw_resource_viewer.gd" id="1_mnwmh"]
 [ext_resource type="PackedScene" path="res://scenes/debug/raw_resource_viewers/font_viewer.tscn" id="3_8bhsx"]
-[ext_resource type="PackedScene" path="res://scenes/debug/raw_resource_viewers/image_viewer.tscn" id="3_qsha3"]
+[ext_resource type="PackedScene" uid="uid://hlp4kvdep5wg" path="res://scenes/debug/raw_resource_viewers/image_viewer.tscn" id="3_qsha3"]
 [ext_resource type="PackedScene" path="res://scenes/debug/raw_resource_viewers/npc_viewer.tscn" id="4_ap8he"]
 [ext_resource type="PackedScene" uid="uid://j4rfe4c53735" path="res://scenes/debug/raw_resource_viewers/level_viewer.tscn" id="5_n6f1n"]
+[ext_resource type="PackedScene" uid="uid://dguwqqykcrr1a" path="res://scenes/debug/raw_resource_viewers/strings_viewer.tscn" id="6_vcoj7"]
 
 [node name="resource_viewer" type="Node2D"]
 script = ExtResource("1_mnwmh")
@@ -31,6 +32,10 @@ offset_top = -160.0
 offset_right = 100.0
 grow_vertical = 0
 theme_override_constants/separation = 12
+
+[node name="button_strings" type="Button" parent="CanvasLayer/ui/button_container"]
+layout_mode = 2
+text = "Strings"
 
 [node name="button_images" type="Button" parent="CanvasLayer/ui/button_container"]
 layout_mode = 2
@@ -71,10 +76,14 @@ visible = false
 layout_mode = 2
 
 [node name="npc_viewer" parent="CanvasLayer/ui/resource_viewers" instance=ExtResource("4_ap8he")]
+visible = false
 layout_mode = 2
 
 [node name="level_viewer" parent="CanvasLayer/ui/resource_viewers" instance=ExtResource("5_n6f1n")]
 visible = false
+layout_mode = 2
+
+[node name="strings_viewer" parent="CanvasLayer/ui/resource_viewers" instance=ExtResource("6_vcoj7")]
 layout_mode = 2
 
 [connection signal="pressed" from="CanvasLayer/ui/button_container/button_back" to="." method="_on_button_back_pressed"]
