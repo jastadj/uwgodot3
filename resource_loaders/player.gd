@@ -16,14 +16,14 @@ static func load_player_file(filename:String):
    #005B   Int8    heading (0..7?)
    #005C   Int8    dungeon level
 
+	# NOT USED YET - WIP - TODO - use this for player creation template
+
 	# get player position, direction, and dungeon level
 	player["x_pos"] = int(tfile.get_16())
 	player["y_pos"] = int(tfile.get_16())
 	player["z_pos"] = int(tfile.get_16())
 	player["dir"] = int(tfile.get_8())
 	player["level"] = int(tfile.get_8())
-	
-	print(player)
 	
 	# return player
 	return player

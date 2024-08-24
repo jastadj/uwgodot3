@@ -86,6 +86,11 @@ static func load_levels_file(filename:String):
 					object["y"] += tile["y"]*8
 					object = objects[object["next_object"]]
 		
+		# delete null objects
+		for i in range(objects.size()-1, -1):
+			if(objects[i] == null):
+				objects.remove_at(i)
+		
 	# read anim info block
 	for level_num in range(0, level_count):			
 		# move to block offset
@@ -130,7 +135,6 @@ static func load_levels_file(filename:String):
 		
 		levels[level_num]["textures"] = textures
 	
-	print(levels[0].keys())
 	return levels
 
 static func _read_object_info(tfile:FileAccess):

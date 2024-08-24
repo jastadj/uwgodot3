@@ -9,6 +9,7 @@ var palette
 var floor_textures = []
 @onready var tile_size = $square.texture.get_size()
 @onready var tiles = $tiles
+@onready var objects = $objects
 var tile_cursor
 var tile_shader = load("res://scenes/debug/raw_resource_viewers/components/level_tile.gdshader")
 
@@ -79,7 +80,7 @@ func _select_level(level_num):
 	_update_tiles()
 	
 func _update_tiles():
-	_clear_tiles()
+	_clear_level()
 	tiles.position = Vector2(0,0)
 	for y in range(0, cur_level["length"]):
 		for x in range(0, cur_level["width"]):
@@ -93,9 +94,13 @@ func _update_tiles():
 			newtile.texture = ImageTexture.create_from_image(floor_textures[floor_index])
 			tiles.add_child(newtile)
 	
-func _clear_tiles():
+func _clear_level():
 	for child in tiles.get_children():
 		tiles.remove_child(child)
+		child.queue_free()
+		
+	for child in objects.get_children():
+		objects.remove_child(child)
 		child.queue_free()
 
 

@@ -68,5 +68,7 @@ centered = false
 show_behind_parent = true
 material = SubResource("ShaderMaterial_4pfwh")
 
+[node name="objects" type="Node2D" parent="."]
+
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
 [connection signal="value_changed" from="VBoxContainer/HBoxContainer/spinbox_level" to="." method="_on_spinbox_level_value_changed"]
