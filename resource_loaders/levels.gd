@@ -53,8 +53,6 @@ static func load_levels_file(filename:String):
 	
 		# read object list for each level
 		var objects = []
-		var free_npcs = []
-		var free_objects = []
 		
 		# read mobile objects
 		for npc_index in range(0, 256):
@@ -76,6 +74,17 @@ static func load_levels_file(filename:String):
 			objects[tfile.get_16()] = null
 		
 		levels[level_num]["objects"] = objects
+		
+		# for each tile, walk through the object linked list
+		# and adjust the tile position values to global position
+		for tile_y in tilemap:
+			for tile in tile_y:
+				var object = objects[tile["object_offset"]]
+				while object != null and object != objects[0]:
+					#print("tile:(", tile["x"], ",", tile["y"], ") object id:", object["id"], " (", object["x"], ",", object["y"], ",", object["z"], ")")
+					object["x"] += tile["x"]*8
+					object["y"] += tile["y"]*8
+					object = objects[object["next_object"]]
 		
 	# read anim info block
 	for level_num in range(0, level_count):			

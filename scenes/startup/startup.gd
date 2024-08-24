@@ -68,7 +68,8 @@ func import_uw1():
 
 func save_raws_file():
 	var result = System.save_raws(System.uw1_data)
-	loadstring.text = str("UW1 Raws File Save:", result)	
+	loadstring.text = str("UW1 Raws File Save:", result)
+	_update_buttons()
 
 func load_raws_file():
 	var result = System.load_raws("uw1")
@@ -83,6 +84,7 @@ func generate_resources():
 func export_resources():
 	var result = System.export_resources(System.uw1_data)
 	loadstring.text = str("Resources Exported:", result)
+	_update_buttons()
 
 func _on_button_import_pressed():
 	if(DEBUG): import_uw1()
@@ -119,8 +121,16 @@ func _on_button_clear_data_pressed():
 	System.delete_imported_data()
 	
 func _on_button_load_raws_and_play_pressed():
+	
+	# load raws data
 	load_raws_file()
+	
+	# generate resources
 	generate_resources()
+	
+	# new game
+	
+	# load game scene
 	get_tree().change_scene_to_file("res://scenes/game/game.tscn")
 
 

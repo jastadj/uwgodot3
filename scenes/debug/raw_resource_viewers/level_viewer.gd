@@ -42,6 +42,8 @@ func _process(_delta):
 	mouse_pos = Vector2( int((mouse_pos.x)/(tile_size.x*tilescale.x)), int(mouse_pos.y/(tile_size.y*tilescale.y)))
 	tile_cursor.position = (mouse_pos*tile_size*tilescale) + tiles.position
 	tile_cursor.scale = tiles.scale
+	
+	$LabelCursorPos.text = str(mouse_pos.x,",",cur_level["length"] - mouse_pos.y)
 
 func _input(event):
 	

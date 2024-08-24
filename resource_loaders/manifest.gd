@@ -1,4 +1,4 @@
-enum RESOURCE_TYPES{PALETTE, AUX_PALETTE, TEXTURE, GRAPHIC, BITMAP, FONT, NPC_ASSOC, NPC_ANIM, LEVELS, STRINGS}
+enum RESOURCE_TYPES{PALETTE, AUX_PALETTE, TEXTURE, GRAPHIC, BITMAP, FONT, NPC_ASSOC, NPC_ANIM, LEVELS, STRINGS, PLAYER}
 
 signal importing(loadstring, cur, total)
 
@@ -17,6 +17,7 @@ func load_manifest_file(uw_data:Dictionary, manifest_filename:String):
 	var npc_loader = load("res://resource_loaders/npc.gd")
 	var level_loader = load("res://resource_loaders/levels.gd")
 	var strings_loader = load("res://resource_loaders/strings.gd")
+	var player_loader = load("res://resource_loaders/player.gd")
 	
 	# Is uw_data a Dictionary?
 	if!(uw_data is Dictionary):
@@ -120,6 +121,8 @@ func load_manifest_file(uw_data:Dictionary, manifest_filename:String):
 				result = level_loader.load_levels_file(filepath)
 			RESOURCE_TYPES.STRINGS:
 				result = strings_loader.load_strings_file(filepath)
+			RESOURCE_TYPES.PLAYER:
+				result = player_loader.load_player_file(filepath)
 			_:
 				printerr("Error loading manifest, unhandled resource type ", type)
 				tfile.close()
@@ -153,7 +156,10 @@ func load_manifest_file(uw_data:Dictionary, manifest_filename:String):
 				tfile.close()
 				return false
 		
-		print(line_counter,"/", total_lines, " : Loaded ", result.size(), " entries of ", type," to [",base,"][", keyname,"]")
+		var keyname_str = ""
+		if keyname != "":
+			keyname_str = str("[", keyname,"]")
+		print(line_counter,"/", total_lines, " : Loaded ", result.size(), " entries of RESOURCE_TYPES=", type," to [",base,"]", keyname_str)
 		line_counter += 1
 	
 	tfile.close()

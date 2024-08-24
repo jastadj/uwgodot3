@@ -112,4 +112,5 @@ CRIT,CR36PAGE.N01,npc_anim,npcs,,,30
 CRIT,CR37PAGE.N00,npc_anim,npcs,,,31
 CRIT,CR37PAGE.N01,npc_anim,npcs,,,31
 DATA,LEV.ARK,levels,levels,,,
+DATA,PLAYER.DAT,player,player,,,
 DATA,STRINGS.PAK,strings,strings,english,,
